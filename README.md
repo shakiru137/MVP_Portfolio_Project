@@ -9,5 +9,5 @@
 
 This is my project front-page view.
 
-![Project Front-View Image](static/front-page.jpg)
+![Project Front-View Image](static/front-page.png)
 
