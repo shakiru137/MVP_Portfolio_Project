@@ -183,19 +183,25 @@ def send_money(sender_id):
 
             """ Retrieve recipient's balance """
             db_cursor.execute("SELECT balance FROM accounts WHERE id = %s", (recipient_id,))
-            recipient_balance = db_cursor.fetchone()[0]
+            recipient_balance_row = db_cursor.fetchone()
 
-            """ Update recipient's balance """
-            new_recipient_balance = recipient_balance + amount
-            db_cursor.execute("UPDATE accounts SET balance = %s WHERE id = %s", (new_recipient_balance, recipient_id))
+            if recipient_balance_row is not None:
+                recipient_balance = recipient_balance_row[0]
+                
+                """ Update recipient's balance """
+                new_recipient_balance = recipient_balance + amount
+                db_cursor.execute("UPDATE accounts SET balance = %s WHERE id = %s", (new_recipient_balance, recipient_id))
 
-            db_connection.commit()
-            flash('Money sent successfully!', 'success')
-            return redirect(url_for('account', account_id=sender_id))
+                db_connection.commit()
+                flash('Money sent successfully!', 'success')
+                return redirect(url_for('account', account_id=sender_id))
+            else:
+                flash('Recipient account not found!', 'error')
         else:
             flash('Insufficient funds!', 'error')
 
     return render_template('send_money.html', account=sender_account)
+
 
 @app.route('/account/<int:account_id>')
 def account(account_id):
