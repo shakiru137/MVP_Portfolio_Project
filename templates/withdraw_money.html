@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Withdraw Money</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="header-container">
+        <div class="logo">
+          <h1>Pure Bank</h1>
+        </div>
+        <nav class="main-nav">
+          <ul>
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('service') }}">Services</a></li>
+            <li><a href="{{ url_for('about') }}">About Us</a></li>
+          </ul>
+        </nav>
+      </div>
+      <hr />
+    </header>
+
+    <div class="container">
+      <h1>Withdraw Money</h1>
+      {% if error %}
+      <p class="error">{{ error }}</p>
+      {% endif %}
+      <form
+        action="{{ url_for('withdraw_money', account_id=account[0]) }}"
+        method="POST"
+      >
+        <label for="amount">Amount to Withdraw:</label>
+        <input type="number" id="amount" name="amount" required />
+        <button type="submit">Withdraw</button>
+      </form>
+    </div>
+
+    <footer>
+      <div class="footer-container">
+        <div class="footer-links">
+          <ul>
+            <li><a href="#privacy">Privacy Policy</a></li>
+            <li><a href="#terms">Terms of Service</a></li>
+            <li><a href="#help">Help & Support</a></li>
+            <li><a href="#faq">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="contact-info">
+          <p>
+            Contact us at:
+            <a href="mailto:yusufshakiruoluwasegun@gmail.com"
+              >support@purebank.com</a
+            >
+          </p>
+          <p>Call us: +234-904-679-8810</p>
+        </div>
+        <div class="social-media">
+          <a href="https://web.facebook.com/yusuf.shakiruoluwasegun"
+            >Facebook</a
+          >
+          <a href="https://twitter.com/yusufshakiruol2/">Twitter</a>
+          <a href="http://linkedin.com/in/yusuf-shakiru-oluwasegun">LinkedIn</a>
+        </div>
+        <div class="copyright">
+          <p>&copy; 2024 Pure Bank. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
