@@ -5,9 +5,6 @@ import mysql.connector
 app = Flask(__name__, static_folder='static')
 app.secret_key = 'your_secret_key'
 
-""" Database Configuration """
-DB_HOST = 'localhost'
-
 """
 Flask Banking Application
 
@@ -27,9 +24,6 @@ To run the application, simply execute the following command:
 The application will be available at http://localhost:5000.
 """
 
-app = Flask(__name__, static_folder='static')
-app.secret_key = 'your_secret_key'
-
 """ Database Configuration """
 DB_HOST = 'localhost'
 DB_USER = 'root'
@@ -46,6 +40,15 @@ db_connection = mysql.connector.connect(
 
 """ Create a cursor object to execute SQL queries  """
 db_cursor = db_connection.cursor()
+
+def is_valid_amount(amount):
+    try:
+        amount = float(amount)
+        if amount <= 0:
+            return False
+        return True
+    except ValueError:
+        return False
 
 @app.route('/')
 def index():
@@ -98,8 +101,13 @@ def withdraw_money(account_id):
     account = db_cursor.fetchone()
 
     if request.method == 'POST':
-        amount = float(request.form['amount'])
+        amount = request.form['amount']
 
+        if not is_valid_amount(amount):
+            flash('Invalid amount. Please enter a positive number.', 'error')
+            return render_template('withdraw_money.html', account=account)
+
+        amount = float(amount)
         """ Retrieve account balance """
         db_cursor.execute("SELECT balance FROM accounts WHERE id = %s", (account_id,))
         current_balance = db_cursor.fetchone()[0]
@@ -117,7 +125,6 @@ def withdraw_money(account_id):
 
     return render_template('withdraw_money.html', account=account)
 
-
 @app.route('/deposit_money/<int:account_id>', methods=['GET', 'POST'])
 def deposit_money(account_id):
     """Deposit money to an account."""
@@ -126,8 +133,13 @@ def deposit_money(account_id):
     account = db_cursor.fetchone()
 
     if request.method == 'POST':
-        amount = float(request.form['amount'])
+        amount = request.form['amount']
 
+        if not is_valid_amount(amount):
+            flash('Invalid amount. Please enter a positive number.', 'error')
+            return render_template('deposit_money.html', account=account)
+
+        amount = float(amount)
         """ Retrieve account balance """
         db_cursor.execute("SELECT balance FROM accounts WHERE id = %s", (account_id,))
         current_balance = db_cursor.fetchone()[0]
@@ -142,7 +154,6 @@ def deposit_money(account_id):
 
     return render_template('deposit_money.html', account=account)
 
-
 @app.route('/send_money/<int:sender_id>', methods=['GET', 'POST'])
 def send_money(sender_id):
     """Send money from one account to another."""
@@ -151,8 +162,15 @@ def send_money(sender_id):
     sender_account = db_cursor.fetchone()
 
     if request.method == 'POST':
-        recipient_id = int(request.form['recipient_id'])
-        amount = float(request.form['amount'])
+        recipient_id = request.form['recipient_id']
+        amount = request.form['amount']
+
+        if not recipient_id.isdigit() or not is_valid_amount(amount):
+            flash('Invalid input. Please enter a valid recipient ID and a positive amount.', 'error')
+            return render_template('send_money.html', account=sender_account)
+
+        recipient_id = int(recipient_id)
+        amount = float(amount)
 
         """ Retrieve sender's balance """
         db_cursor.execute("SELECT balance FROM accounts WHERE id = %s", (sender_id,))
