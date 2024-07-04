@@ -8,10 +8,16 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='styles.css') }}"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <!-- Font Awesome -->
   </head>
   <body>
     <header>
       <div class="header-container">
+        <img src="../static/images/bank_logo.png" alt="Pure Bank Logo" />
         <div class="logo">
           <h1>Pure Bank</h1>
         </div>
@@ -23,7 +29,7 @@
           </ul>
         </nav>
       </div>
-      <hr />
+      <!-- <hr /> -->
     </header>
 
     <main>
@@ -33,10 +39,21 @@
         <p class="error">{{ error }}</p>
         {% endif %}
         <form action="{{ url_for('login') }}" method="POST">
-          <label for="username">Username:</label>
+          <label for="username">Username</label>
           <input type="text" id="username" name="username" required />
-          <label for="password">Password:</label>
-          <input type="password" id="password" name="password" required />
+          <label for="password">Password</label>
+          <div class="password-container">
+            <input
+              type="password"
+              id="password"
+              name="password"
+              class="password-input"
+              required
+            />
+            <span class="toggle-password" onclick="togglePasswordVisibility()">
+              <i class="fa fa-eye" id="eye-icon"></i>
+            </span>
+          </div>
           <button type="submit">Login</button>
         </form>
       </div>
@@ -55,9 +72,7 @@
         <div class="contact-info">
           <p>
             Contact us at:
-            <a href="mailto:yusufshakiruoluwasegun@gmail.com"
-              >support@purebank.com</a
-            >
+            <a href="mailto:support@purebank.com">support@purebank.com</a>
           </p>
           <p>Call us: +234-904-679-8810</p>
         </div>
@@ -73,5 +88,7 @@
         </div>
       </div>
     </footer>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <!-- Link to my JS file -->
   </body>
 </html>

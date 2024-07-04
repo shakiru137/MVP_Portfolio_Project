@@ -1,39 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pure Bank - About Us</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-</head>
-<body>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+  </head>
+  <body>
     <header>
-        <div class="header-container">
-            <div class="logo">
-                <h1>Pure Bank</h1>
-            </div>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="{{ url_for('index') }}">Home</a></li>
-                    <li><a href="{{ url_for('service') }}">Services</a></li>
-                    <li><a href="{{ url_for('about') }}">About Us</a></li>
-                </ul>
-            </nav>
+      <div class="header-container">
+        <img src="../static/images/bank_logo.png" alt="Pure Bank Logo" />
+        <div class="logo">
+          <h1>Pure Bank</h1>
         </div>
-        <hr />
+        <nav class="main-nav">
+          <ul>
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('service') }}">Services</a></li>
+            <li><a href="{{ url_for('about') }}">About Us</a></li>
+          </ul>
+        </nav>
+      </div>
+      <!-- <hr /> -->
     </header>
 
     <main>
-        <div class="container">
-            <h1>About Us</h1>
-            <p class="select">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed faucibus arcu eu urna dictum, vel interdum mauris vehicula. Nam nec magna risus. Integer commodo ipsum et nisi venenatis, quis sollicitudin magna placerat. Ut et viverra nisi, nec facilisis ex. Morbi auctor turpis eu turpis gravida, ac blandit elit mollis. Aenean consectetur eros ac nisl dignissim, quis fermentum velit eleifend. Donec euismod massa nec est venenatis, eget laoreet ex varius. Morbi sit amet sem ut justo auctor vestibulum. Fusce venenatis, libero in vestibulum eleifend, ligula eros egestas elit, id feugiat orci libero et tellus. Nulla facilisi.</p>
-        </div>
+      <div class="container">
+        <h1>About Us</h1>
+        <p class="select">
+          Welcome to Pure Bank, where we are dedicated to providing exceptional
+          banking services to meet all your financial needs. With a commitment
+          to innovation, security, and customer satisfaction, we strive to
+          deliver a seamless and personalized banking experience.
+        </p>
+        <p class="select">
+          At Pure Bank, we understand the importance of trust and transparency
+          in financial services. Our team of experienced professionals works
+          tirelessly to ensure that your money is safe and your transactions are
+          smooth. Whether you're looking to open a savings account, apply for a
+          loan, or manage your investments, we have the right solutions tailored
+          just for you.
+        </p>
+        <p class="select">
+          We pride ourselves on our cutting-edge technology, which allows us to
+          offer a wide range of digital banking services. From mobile banking to
+          online account management, Pure Bank provides you with the tools you
+          need to manage your finances anytime, anywhere.
+        </p>
+        <p class="select">
+          Join us at Pure Bank and experience the future of banking today. Our
+          commitment to excellence and our passion for service make us the ideal
+          partner for all your banking needs. Thank you for choosing Pure Bank,
+          where your financial well-being is our top priority.
+        </p>
+      </div>
     </main>
 
     <footer>
-        <div class="footer-container">
-            <div class="footer-links">
-                <ul>
-                    <li><a href="#privacy">Privacy Policy</a></li>
-                    <li><a href="#terms">Terms of Service</a></li>
-                    <li><a href="#help">Help & Support</a></li
+      <div class="footer-container">
+        <div class="footer-links">
+          <ul>
+            <li><a href="#privacy">Privacy Policy</a></li>
+            <li><a href="#terms">Terms of Service</a></li>
+            <li><a href="#help">Help & Support</a></li>
+            <li><a href="#faq">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="contact-info">
+          <p>
+            Contact us at:
+            <a href="mailto:yusufshakiruoluwasegun@gmail.com"
+              >support@purebank.com</a
+            >
+          </p>
+          <p>Call us: +234-904-679-8810</p>
+        </div>
+        <div class="social-media">
+          <a href="https://web.facebook.com/yusuf.shakiruoluwasegun"
+            >Facebook</a
+          >
+          <a href="https://twitter.com/yusufshakiruol2/">Twitter</a>
+          <a href="http://linkedin.com/in/yusuf-shakiru-oluwasegun">LinkedIn</a>
+        </div>
+        <div class="copyright">
+          <p>&copy; 2024 Pure Bank. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

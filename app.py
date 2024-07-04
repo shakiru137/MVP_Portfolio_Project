@@ -70,7 +70,7 @@ def create_account():
         db_connection.commit()
 
         flash('Account created successfully!', 'success')
-        return redirect(url_for('index'))
+        return redirect(url_for('create_account'))
 
     return render_template('create_account.html')
 
@@ -119,7 +119,8 @@ def withdraw_money(account_id):
 
             flash('Withdrawal successful!', 'success')
             """ Redirect to prevent form resubmission """
-            return redirect(url_for('account', account_id=account_id))
+            return render_template('withdraw_money.html', account=account)
+            # return redirect(url_for('account', account_id=account_id))
         else:
             flash('Insufficient funds!', 'error')
 
@@ -150,7 +151,8 @@ def deposit_money(account_id):
 
         flash('Deposit successful!', 'success')
         """ Redirect to prevent form resubmission """
-        return redirect(url_for('account', account_id=account_id))
+        return render_template('deposit_money.html', account=account)
+        # return redirect(url_for('account', account_id=account_id))
 
     return render_template('deposit_money.html', account=account)
 

@@ -12,6 +12,7 @@
   <body>
     <header>
       <div class="header-container">
+        <img src="../static/images/bank_logo.png" alt="Pure Bank Logo" />
         <div class="logo">
           <h1>Pure Bank</h1>
         </div>
@@ -23,7 +24,6 @@
           </ul>
         </nav>
       </div>
-      <hr />
     </header>
 
     <main>
@@ -32,7 +32,7 @@
         <p class="select">Select an option</p>
         <ul>
           <li>
-            <a href="{{ url_for('create_account') }}">Create a new account</a>
+            <a href="{{ url_for('create_account') }}">Open a new account</a>
           </li>
           <li><a href="{{ url_for('login') }}">Log in to your account</a></li>
         </ul>
