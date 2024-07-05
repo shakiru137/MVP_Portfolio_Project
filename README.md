@@ -1,4 +1,4 @@
-# Research & Project approval (Part 1)
+# Research & Project approval
 ## Portfolio project
 ## Presentation
 ### GitHub Repository
