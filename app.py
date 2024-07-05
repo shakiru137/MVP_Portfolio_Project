@@ -196,7 +196,8 @@ def send_money(sender_id):
 
                 db_connection.commit()
                 flash('Money sent successfully!', 'success')
-                return redirect(url_for('account', account_id=sender_id))
+                return render_template('send_money.html', account=sender_account)
+                #return redirect(url_for('account', account_id=sender_id))
             else:
                 flash('Recipient account not found!', 'error')
         else:
