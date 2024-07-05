@@ -34,6 +34,7 @@
         <p>Username: <strong>{{ account[2] }}</strong></p>
         <p>Balance: # <strong>{{ account[4] }}</strong></p>
         <p>Account ID: <strong>{{ account[0] }} </strong></p>
+        <br>
         <ul>
           <li>
             <a href="{{ url_for('withdraw_money', account_id=account[0]) }}"
