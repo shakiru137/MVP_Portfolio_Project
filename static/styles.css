@@ -31,11 +31,8 @@ body {
   50% {
     background-image: url("../static/images/background2.jpg");
   }
-  75% {
-    background-image: url("../static/images/background3.jpg");
-  }
   100% {
-    background-image: url("../static/images/background.jpg");
+    background-image: url("../static/images/background3.jpg");
   }
 }
 
@@ -43,7 +40,7 @@ body {
 .container {
   max-width: 50%; /* Responsive width */
   margin: 0 auto;
-  padding: 20px;
+  padding: 15px;
   background-color: rgba(255, 255, 255, 0.8);
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
@@ -71,7 +68,7 @@ footer {
 
 main {
   flex: 1 0 auto;
-  padding: 20px;
+  padding: 50px;
 }
 
 /* Container styling inside header and footer */
@@ -101,7 +98,12 @@ main {
 .main-nav a,
 .footer-links a {
   text-decoration: none;
-  color: #007bff;
+  color: #29a6e6;
+}
+
+nav {
+  padding-top: 30px;
+  padding-right: 20px;
 }
 
 /* Contact info and social media links styling */
@@ -113,7 +115,7 @@ main {
 .social-media a {
   margin-left: 10px;
   text-decoration: none;
-  color: #007bff;
+  color: #29a6e6;
 }
 
 .footer-container {
@@ -134,7 +136,7 @@ main {
 
 .social-media {
   display: flex;
-  gap: 10px;
+  gap: 5px;
 }
 
 @media (min-width: 768px) {
@@ -154,30 +156,27 @@ main {
   }
 }
 
-/* Additional styling */
-hr {
-  border-color: blue;
-}
-
 .container p {
-  color: #0000cd;
+  color: #6c757d;
   font-size: 1rem;
 }
 
 .logo h1 {
-  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  font-size: 2.5rem; /* Use relative units */
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  font-size: 3.5rem; /* Use relative units */
+  color: #29a6e6;
+  padding-left: 100px;
 }
 
 .container h1 {
   font-size: 1.875rem;
+  color: #635454;
 }
 
 /* Text styling */
 h1 {
   margin-bottom: 20px;
   text-align: center;
-  color: #0000ff;
 }
 
 p {
@@ -195,7 +194,8 @@ ul li {
 
 a {
   text-decoration: none;
-  color: #00008b;
+  color: #29a6e6;
+  font-size: 1.1rem;
 }
 
 a:hover {
@@ -205,17 +205,26 @@ a:hover {
 label {
   display: block;
   margin-bottom: 5px;
-  color: #00008b;
+  color: #29a6e6;
 }
 
 /* Form element styling */
-input[type="text"],
-input[type="password"] {
-  width: 100%;
+input[type="text"] {
+  color: #6c757d;
+  width: 70%;
   padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 1px solid #29a6e6;
+  border-radius: 10px;
+  font-size: 1.2rem;
+}
+
+input[type="password"] {
+  color: #6c757d;
+  width: 70%;
+  padding: 10px;
+  border: 1px solid #29a6e6;
+  border-radius: 10px;
+  font-size: 1.2rem;
 }
 
 button {
@@ -253,6 +262,7 @@ img {
   width: 100px;
   height: 100px;
   margin: -10px; /* Add margin around all images */
+  cursor: pointer;
 }
 
 /* This will apply to password viewing */
@@ -279,11 +289,15 @@ img {
 }
 
 .toggle-password i {
-  font-size: 20px;
+  font-size: 1rem;
   color: #007bff;
 }
 
 .toggle-password i:hover {
-  font-size: 20px;
-  color: #031527;
+  font-size: 1.2rem;
+  color: #29a6e6;
+}
+
+#select {
+  color: #29a6e6;
 }
