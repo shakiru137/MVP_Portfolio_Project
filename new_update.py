@@ -156,6 +156,56 @@ def deposit_money(account_id):
 
     return render_template('deposit_money.html', account=account)
 
+def process_transaction(sender_id, recipient_id, amount):
+    # Convert amount to float and validate
+    try:
+        amount = float(amount)
+        if amount <= 0:
+            raise ValueError("Amount must be positive")
+    except ValueError as e:
+        return str(e)
+
+    try:
+        # Begin transaction
+        db_connection.start_transaction()
+
+        # Retrieve sender's balance
+        db_cursor.execute("SELECT balance FROM accounts WHERE id = %s FOR UPDATE", (sender_id,))
+        sender_balance_row = db_cursor.fetchone()
+        if sender_balance_row is None:
+            raise ValueError("Sender account not found")
+        sender_balance = sender_balance_row[0]
+
+        # Check if sender has enough balance
+        if sender_balance < amount:
+            raise ValueError("Insufficient funds")
+
+        # Retrieve recipient's balance
+        db_cursor.execute("SELECT balance FROM accounts WHERE id = %s FOR UPDATE", (recipient_id,))
+        recipient_balance_row = db_cursor.fetchone()
+        if recipient_balance_row is None:
+            raise ValueError("Recipient account not found")
+        recipient_balance = recipient_balance_row[0]
+
+        # Update balances
+        new_sender_balance = sender_balance - amount
+        new_recipient_balance = recipient_balance + amount
+        db_cursor.execute("UPDATE accounts SET balance = %s WHERE id = %s", (new_sender_balance, sender_id))
+        db_cursor.execute("UPDATE accounts SET balance = %s WHERE id = %s", (new_recipient_balance, recipient_id))
+
+        # Commit transaction
+        db_connection.commit()
+
+        return "Transaction successful"
+    except mysql.connector.Error as err:
+        # Rollback in case of error
+        db_connection.rollback()
+        return f"Error: {err}"
+    except ValueError as e:
+        # Rollback in case of validation error
+        db_connection.rollback()
+        return str(e)
+
 @app.route('/send_money/<int:sender_id>', methods=['GET', 'POST'])
 def send_money(sender_id):
     """Send money from one account to another."""
@@ -174,40 +224,12 @@ def send_money(sender_id):
         recipient_id = int(recipient_id)
         amount = float(amount)
 
-        """ Retrieve sender's balance """
-        db_cursor.execute("SELECT balance FROM accounts WHERE id = %s", (sender_id,))
-        sender_balance = db_cursor.fetchone()[0]
+        result = process_transaction(sender_id, recipient_id, amount)
+        flash(result, 'success' if result == "Transaction successful" else 'error')
 
-        if sender_balance >= amount:
-            """ Update sender's balance """
-            new_sender_balance = sender_balance - amount
-            db_cursor.execute("UPDATE accounts SET balance = %s WHERE id = %s", (new_sender_balance, sender_id))
-
-            """ Retrieve recipient's balance """
-            db_cursor.execute("SELECT balance FROM accounts WHERE id = %s", (recipient_id,))
-            recipient_balance_row = db_cursor.fetchone()
-            db_cursor.execute("SELECT name FROM accounts WHERE id = %s", (recipient_id,)) # new code
-            recipient_name_row = db_cursor.fetchone() # new code
-
-            if recipient_balance_row is not None:
-                recipient_balance = recipient_balance_row[0]
-                recipient_name = recipient_name_row[0]
-                
-                """ Update recipient's balance """
-                new_recipient_balance = recipient_balance + amount
-                db_cursor.execute("UPDATE accounts SET balance = %s WHERE id = %s", (new_recipient_balance, recipient_id))
-
-                db_connection.commit()
-                flash(f'Money sent successfully to {recipient_name}', 'success') # updated code
-                return render_template('send_money.html', account=sender_account)
-                #return redirect(url_for('account', account_id=sender_id))
-            else:
-                flash('Recipient account not found!', 'error')
-        else:
-            flash('Insufficient funds!', 'error')
+        return render_template('send_money.html', account=sender_account)
 
     return render_template('send_money.html', account=sender_account)
-
 
 @app.route('/account/<int:account_id>')
 def account(account_id):
@@ -233,3 +255,4 @@ def about():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
