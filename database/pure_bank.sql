@@ -1,7 +1,7 @@
 -- Create a database named 'mybank' if it does not already exist
 CREATE DATABASE IF NOT EXISTS mybank;
 
--- Select the 'mybank' database to use for subsequent operations
+-- Select the 'mybank' database touse for subsequent operations
 USE mybank;
 
 -- Create a table named 'accounts' if it does not already exist
