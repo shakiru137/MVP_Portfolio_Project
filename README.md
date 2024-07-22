@@ -1,3 +1,4 @@
+
 # Pure Bank Project
 
 Welcome to the Pure Bank Project! This repository contains the code and documentation for a comprehensive banking application developed using Flask and other web technologies.
