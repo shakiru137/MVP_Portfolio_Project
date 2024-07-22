@@ -17,7 +17,10 @@
     <header>
       <div class="header-container">
         <!-- Logo image and title of the website -->
-        <img src="../static/images/bank_logo.png" alt="Pure Bank Logo" />
+        <img
+          src="{{ url_for('static', filename='images/bank_logo.png') }}"
+          alt="Pure Bank Logo"
+        />
         <div class="logo">
           <h1>Pure Bank</h1>
         </div>
@@ -31,8 +34,6 @@
           </ul>
         </nav>
       </div>
-      <!-- Optional horizontal rule for separation (commented out) -->
-      <!-- <hr /> -->
     </header>
 
     <!-- Main content section displaying account details and options -->
@@ -44,7 +45,7 @@
         <!-- Displaying account information dynamically -->
         <p>Name: <strong>{{ account[1] }}</strong></p>
         <p>Username: <strong>{{ account[2] }}</strong></p>
-        <p>Balance: # <strong>{{ account[4] }}</strong></p>
+        <p>Balance: #<strong>{{ account[4] }}</strong></p>
         <p>Account ID: <strong>{{ account[0] }}</strong></p>
 
         <!-- Line break for spacing -->
@@ -70,6 +71,13 @@
               >Send Money</a
             >
           </li>
+          <!-- Link to view transaction history with account ID -->
+          <li>
+            <a
+              href="{{ url_for('transaction_history', account_id=account[0]) }}"
+              >Transaction History</a
+            >
+          </li>
           <!-- Link to log out -->
           <li><a href="{{ url_for('index') }}" class="logout">Log Out</a></li>
         </ul>
@@ -93,9 +101,7 @@
         <div class="contact-info">
           <p>
             Contact us at:
-            <a href="mailto:yusufshakiruoluwasegun@gmail.com"
-              >support@purebank.com</a
-            >
+            <a href="mailto:support@purebank.com">support@purebank.com</a>
           </p>
           <p>Call us: +234-904-679-8810</p>
         </div>
