@@ -1,13 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Meta tags for character set and viewport settings -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Page title -->
     <title>Create Account</title>
+
+    <!-- Link to the external stylesheet for styling the page -->
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='styles.css') }}"
     />
+
+    <!-- Link to Font Awesome for icons -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
@@ -15,8 +22,10 @@
     <!-- Font Awesome -->
   </head>
   <body>
+    <!-- Header section with logo and navigation menu -->
     <header>
       <div class="header-container">
+        <!-- Logo image and site title -->
         <img
           src="{{ url_for('static', filename='images/bank_logo.png') }}"
           alt="Pure Bank Logo"
@@ -24,6 +33,8 @@
         <div class="logo">
           <h1>Pure Bank</h1>
         </div>
+
+        <!-- Navigation menu -->
         <nav class="main-nav">
           <ul>
             <li><a href="{{ url_for('index') }}">Home</a></li>
@@ -32,12 +43,17 @@
           </ul>
         </nav>
       </div>
+      <!-- Optional horizontal rule for separation (commented out) -->
       <!-- <hr /> -->
     </header>
 
+    <!-- Main content area -->
     <main>
       <div class="container">
+        <!-- Page header -->
         <h1>Create Account</h1>
+
+        <!-- Display flash messages if any -->
         {% with messages = get_flashed_messages(with_categories=True) %} {% if
         messages %}
         <ul class="flashes">
@@ -46,15 +62,22 @@
           {% endfor %}
         </ul>
         {% endif %} {% endwith %}
+
+        <!-- Account creation form -->
         <form
           action="{{ url_for('create_account') }}"
           method="POST"
           onsubmit="return validateForm()"
         >
+          <!-- Full name input -->
           <label for="name">Full Name</label>
           <input type="text" id="name" name="name" required />
+
+          <!-- Username input -->
           <label for="username">Username</label>
           <input type="text" id="username" name="username" required />
+
+          <!-- Password input with toggle visibility feature -->
           <label for="password">Password</label>
           <div class="password-container">
             <input
@@ -68,6 +91,8 @@
               <i class="fa fa-eye" id="eye-icon"></i>
             </span>
           </div>
+
+          <!-- Confirm password input with toggle visibility feature -->
           <label for="confirm_password">Confirm Password</label>
           <div class="password-container">
             <input
@@ -84,16 +109,22 @@
               <i class="fa fa-eye" id="confirm-eye-icon"></i>
             </span>
           </div>
+
+          <!-- Error message for password mismatch -->
           <p id="password-error" class="error" style="display: none">
             Passwords do not match
           </p>
+
+          <!-- Submit button for the form -->
           <button type="submit">Create Account</button>
         </form>
       </div>
     </main>
 
+    <!-- Footer section with links and contact information -->
     <footer>
       <div class="footer-container">
+        <!-- Footer links -->
         <div class="footer-links">
           <ul>
             <li><a href="#privacy">Privacy Policy</a></li>
@@ -102,6 +133,8 @@
             <li><a href="#faq">FAQ</a></li>
           </ul>
         </div>
+
+        <!-- Contact information -->
         <div class="contact-info">
           <p>
             Contact us at:
@@ -109,6 +142,8 @@
           </p>
           <p>Call us: +234-904-679-8810</p>
         </div>
+
+        <!-- Social media links -->
         <div class="social-media">
           <a href="https://web.facebook.com/yusuf.shakiruoluwasegun"
             >Facebook</a
@@ -116,11 +151,15 @@
           <a href="https://twitter.com/yusufshakiruol2/">Twitter</a>
           <a href="http://linkedin.com/in/yusuf-shakiru-oluwasegun">LinkedIn</a>
         </div>
+
+        <!-- Copyright information -->
         <div class="copyright">
           <p>&copy; 2024 Pure Bank. All rights reserved.</p>
         </div>
       </div>
     </footer>
+
+    <!-- Link to external JavaScript file for additional functionality -->
     <script src="{{ url_for('static', filename='script.js') }}"></script>
     <!-- Link to your JS file -->
   </body>

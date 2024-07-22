@@ -6,298 +6,308 @@ ul,
 li,
 input,
 button {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+  box-sizing: border-box; /* Include padding and border in element's total width and height */
 }
 
 /* Body styling */
 body {
   /* background-image: url("./images/background.jpg"); */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  animation: backgroundSlideshow 10s infinite alternate;
+  background-size: cover; /* Ensure background image covers the entire body */
+  background-position: center; /* Center the background image */
+  background-repeat: no-repeat; /* Prevent background image from repeating */
+  min-height: 100vh; /* Ensure body covers at least the full viewport height */
+  display: flex; /* Use flexbox for layout */
+  flex-direction: column; /* Arrange child elements vertically */
+  animation: backgroundSlideshow 10s infinite alternate; /* Apply background slideshow animation */
 }
 
 /* Background slideshow animation */
 @keyframes backgroundSlideshow {
   0% {
-    background-image: url("../static/images/background.jpg");
+    background-image: url("../static/images/background.jpg"); /* Start with the first image */
   }
   50% {
-    background-image: url("../static/images/background2.jpg");
+    background-image: url("../static/images/background2.jpg"); /* Transition to the second image */
   }
   100% {
-    background-image: url("../static/images/background3.jpg");
+    background-image: url("../static/images/background3.jpg"); /* End with the third image */
   }
 }
 
 /* Container styling */
 .container {
-  max-width: 50%; /* Responsive width */
-  margin: 0 auto;
-  padding: 15px;
-  background-color: rgba(255, 255, 255, 0.8);
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
-  overflow: hidden;
-  text-align: center;
+  max-width: 50%; /* Limit the container's width to 50% of its parent */
+  margin: 0 auto; /* Center the container horizontally */
+  padding: 15px; /* Add padding inside the container */
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.8
+  ); /* White background with slight transparency */
+  border-radius: 8px; /* Round the corners */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.8); /* Add a shadow around the container */
+  overflow: hidden; /* Hide any overflow content */
+  text-align: center; /* Center text inside the container */
 }
 
 /* Header and Footer styling */
 header,
 footer {
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 10px 30px;
-  text-align: center;
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.8
+  ); /* White background with slight transparency */
+  padding: 10px 30px; /* Add padding inside header and footer */
+  text-align: center; /* Center text inside header and footer */
 }
 
 /* Footer section */
 footer {
-  margin-top: auto;
+  margin-top: auto; /* Push footer to the bottom of the page */
 }
 
 header,
 footer {
-  flex-shrink: 0;
+  flex-shrink: 0; /* Prevent header and footer from shrinking */
 }
 
 main {
-  flex: 1 0 auto;
-  padding: 50px;
+  flex: 1 0 auto; /* Allow main content to grow and shrink as needed */
+  padding: 50px; /* Add padding inside main content area */
 }
 
 /* Container styling inside header and footer */
 .header-container,
 .footer-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  padding: 0 20px;
+  display: flex; /* Use flexbox for layout */
+  justify-content: space-between; /* Distribute space between child elements */
+  align-items: center; /* Align child elements vertically */
+  width: 100%; /* Full width */
+  padding: 0 20px; /* Add horizontal padding */
 }
 
 /* Logo styling */
 .header-container .logo h1 {
-  margin: 0;
+  margin: 0; /* Remove default margin */
 }
 
 /* Navigation and Footer links styling */
 .main-nav ul,
 .footer-links ul {
-  list-style-type: none;
-  display: flex;
-  gap: 20px;
-  padding: 0;
+  list-style-type: none; /* Remove bullet points from lists */
+  display: flex; /* Use flexbox for layout */
+  gap: 20px; /* Add space between list items */
+  padding: 0; /* Remove default padding */
 }
 
 .main-nav a,
 .footer-links a {
-  text-decoration: none;
-  color: #29a6e6;
+  text-decoration: none; /* Remove underline from links */
+  color: #29a6e6; /* Set link color */
 }
 
 nav {
-  padding-top: 30px;
-  padding-right: 20px;
+  padding-top: 30px; /* Add top padding */
+  padding-right: 20px; /* Add right padding */
 }
 
 /* Contact info and social media links styling */
 .contact-info p {
-  margin: 5px 0;
-  color: #6c757d;
+  margin: 5px 0; /* Add vertical margin */
+  color: #6c757d; /* Set text color */
 }
 
 .social-media a {
-  margin-left: 10px;
-  text-decoration: none;
-  color: #29a6e6;
+  margin-left: 10px; /* Add left margin */
+  text-decoration: none; /* Remove underline from links */
+  color: #29a6e6; /* Set link color */
 }
 
 .footer-container {
-  flex-direction: column;
-  align-items: center;
+  flex-direction: column; /* Arrange child elements vertically */
+  align-items: center; /* Center child elements horizontally */
 }
 
 .footer-links,
 .contact-info,
 .social-media {
-  margin: 10px 0;
+  margin: 10px 0; /* Add vertical margin */
 }
 
 .footer-links ul {
-  flex-direction: column;
-  align-items: center;
+  flex-direction: column; /* Arrange list items vertically */
+  align-items: center; /* Center list items horizontally */
 }
 
 .social-media {
-  display: flex;
-  gap: 5px;
+  display: flex; /* Use flexbox for layout */
+  gap: 5px; /* Add space between social media links */
 }
 
 @media (min-width: 768px) {
   .footer-container {
-    flex-direction: row;
-    justify-content: space-between;
+    flex-direction: row; /* Arrange child elements horizontally on larger screens */
+    justify-content: space-between; /* Distribute space between child elements */
   }
 
   .footer-links ul {
-    flex-direction: row;
-    gap: 20px;
+    flex-direction: row; /* Arrange list items horizontally on larger screens */
+    gap: 20px; /* Add space between list items */
   }
 
   .contact-info,
   .social-media {
-    margin: 0;
+    margin: 0; /* Remove vertical margin on larger screens */
   }
 }
 
 .container p {
-  color: #6c757d;
-  font-size: 1rem;
+  color: #6c757d; /* Set text color */
+  font-size: 1rem; /* Set font size */
 }
 
 .logo h1 {
-  text-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  font-size: 3.5rem; /* Use relative units */
-  color: #29a6e6;
-  padding-left: 100px;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add a subtle shadow to the text */
+  font-size: 3.5rem; /* Set font size */
+  color: #29a6e6; /* Set text color */
+  padding-left: 100px; /* Add left padding */
 }
 
 .container h1 {
-  font-size: 1.875rem;
-  color: #635454;
+  font-size: 1.875rem; /* Set font size */
+  color: #635454; /* Set text color */
 }
 
 /* Text styling */
 h1 {
-  margin-bottom: 20px;
-  text-align: center;
+  margin-bottom: 20px; /* Add bottom margin */
+  text-align: center; /* Center text */
 }
 
 p {
-  margin-bottom: 10px;
+  margin-bottom: 10px; /* Add bottom margin */
 }
 
 ul {
-  list-style-type: none;
-  margin-bottom: 20px;
+  list-style-type: none; /* Remove bullet points from lists */
+  margin-bottom: 20px; /* Add bottom margin */
 }
 
 ul li {
-  margin-bottom: 10px;
+  margin-bottom: 10px; /* Add bottom margin */
 }
 
 a {
-  text-decoration: none;
-  color: #29a6e6;
-  font-size: 1.1rem;
+  text-decoration: none; /* Remove underline from links */
+  color: #29a6e6; /* Set link color */
+  font-size: 1.1rem; /* Set font size */
 }
 
 a:hover {
-  text-decoration: underline;
+  text-decoration: underline; /* Add underline on hover */
 }
 
 label {
-  display: block;
-  margin-bottom: 5px;
-  color: #29a6e6;
+  display: block; /* Display label as block element */
+  margin-bottom: 5px; /* Add bottom margin */
+  color: #29a6e6; /* Set text color */
 }
 
 /* Form element styling */
 input[type="text"] {
-  color: #6c757d;
-  width: 70%;
-  padding: 10px;
-  border: 1px solid #29a6e6;
-  border-radius: 10px;
-  font-size: 1.2rem;
+  color: #6c757d; /* Set text color */
+  width: 70%; /* Set width */
+  padding: 10px; /* Add padding inside input */
+  border: 1px solid #29a6e6; /* Add border with color */
+  border-radius: 10px; /* Round the corners */
+  font-size: 1.2rem; /* Set font size */
 }
 
 input[type="password"] {
-  color: #6c757d;
-  width: 70%;
-  padding: 10px;
-  border: 1px solid #29a6e6;
-  border-radius: 10px;
-  font-size: 1.2rem;
+  color: #6c757d; /* Set text color */
+  width: 70%; /* Set width */
+  padding: 10px; /* Add padding inside input */
+  border: 1px solid #29a6e6; /* Add border with color */
+  border-radius: 10px; /* Round the corners */
+  font-size: 1.2rem; /* Set font size */
 }
 
 button {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+  padding: 10px 20px; /* Add padding inside button */
+  background-color: #007bff; /* Set background color */
+  color: #fff; /* Set text color */
+  border: none; /* Remove border */
+  border-radius: 4px; /* Round the corners */
+  cursor: pointer; /* Change cursor to pointer */
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #0056b3; /* Change background color on hover */
 }
 
 .error {
-  color: red;
+  color: red; /* Set text color for error messages */
 }
 
 .success {
-  color: green;
+  color: green; /* Set text color for success messages */
 }
 
 a.logout:hover {
-  color: red;
+  color: red; /* Change link color on hover */
 }
 
 .copyright {
-  font-size: 0.875rem;
-  color: #6c757d;
+  font-size: 0.875rem; /* Set font size */
+  color: #6c757d; /* Set text color */
 }
 
 /* This will apply to all images */
 img {
-  width: 100px;
-  height: 100px;
-  margin: -10px; /* Add margin around all images */
-  cursor: pointer;
+  width: 100px; /* Set image width */
+  height: 100px; /* Set image height */
+  margin: -10px; /* Add negative margin around all images */
+  cursor: pointer; /* Change cursor to pointer */
 }
 
 /* This will apply to password viewing */
 .password-container {
-  position: relative;
-  width: 100%;
+  position: relative; /* Position relative to contain the icon */
+  width: 100%; /* Full width */
 }
 
 .password-input {
-  width: 100%;
-  padding: 10px;
-  padding-right: 40px; /* Space for the icon */
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  width: 100%; /* Full width */
+  padding: 10px; /* Add padding inside input */
+  padding-right: 40px; /* Add space for the icon on the right */
+  margin-bottom: 15px; /* Add bottom margin */
+  border: 1px solid #ccc; /* Add border */
+  border-radius: 4px; /* Round the corners */
 }
 
 .toggle-password {
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  transform: translateY(-50%);
-  cursor: pointer;
+  position: absolute; /* Position icon absolutely within container */
+  top: 50%; /* Center vertically */
+  right: 10px; /* Position icon 10px from the right */
+  transform: translateY(-50%); /* Center vertically */
+  cursor: pointer; /* Change cursor to pointer */
 }
 
 .toggle-password i {
-  font-size: 1rem;
-  color: #007bff;
+  font-size: 1rem; /* Set icon font size */
+  color: #007bff; /* Set icon color */
 }
 
 .toggle-password i:hover {
-  font-size: 1.2rem;
-  color: #29a6e6;
+  font-size: 1.2rem; /* Increase icon size on hover */
+  color: #29a6e6; /* Change icon color on hover */
 }
 
 #select {
-  color: #29a6e6;
+  color: #29a6e6; /* Set text color */
 }
