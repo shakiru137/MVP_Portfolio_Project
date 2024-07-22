@@ -1,4 +1,4 @@
-// Function to toggle the visibility of the password field
+// Function to toggle the visibility of the password-field
 function togglePasswordVisibility() {
   // Get the password input element by its ID
   const passwordInput = document.getElementById("password");
