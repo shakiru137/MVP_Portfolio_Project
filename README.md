@@ -6,6 +6,7 @@ Welcome to the Pure Bank Project! This repository contains the code and document
 
 - [Project Overview](#project-overview)
 - [Features](#features)
+- [Project Structure](#project-structure)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Testing](#testing)
@@ -47,17 +48,27 @@ The Pure Bank Project is a web-based banking application designed to provide use
 To set up the Pure Bank Project on your local machine, follow these steps:
 
 1. **Clone the Repository:**
+
    ```bash
    git clone https://github.com/shakiru137/MVP_Portfolio_Project
    ```
 
-Navigation
+2. **Navigation:**
 
-- Navigate to the project directory: cd MVP_Portfolio_Project
+- Navigate to the project directory:
 
-Virtual Environment
+```bash
+cd MVP_Portfolio_Project
+```
 
-- Create a virtual environment: python3 -m venv venv
+3. **Virtual Environment**
+
+- Create a virtual environment:
+
+```bash
+python3 -m venv venv
+```
+
 - Activate the virtual environment:
   - On Windows: venv\Scripts\activate
   - On macOS and Linux: source venv/bin/activate
