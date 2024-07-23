@@ -73,38 +73,56 @@ python3 -m venv venv
   - On Windows: venv\Scripts\activate
   - On macOS and Linux: source venv/bin/activate
 
-Dependencies
+4. **Dependencies**
 
-- Install required dependencies: pip install -r requirements.txt
+- Install required dependencies:
 
-Database Setup
+```bash
+pip install -r requirements.txt
+```
 
-- Create a MySQL database named pure_bank
+5. **Database Setup**
+
+- Create a MySQL database named mybank
 - Update database configuration in (link unavailable) with your MySQL credentials
-- Run database migrations: flask db upgrade
+- Run database migrations:
 
-Running the Application
+```bash
+flask db upgrade
+```
 
-- Run the application: flask run
+6. **Running the Application**
 
-Usage
+- Run the application:
+
+```bash
+flask run
+```
+
+7. **Usage**
 
 - Access the application in your web browser at http://localhost:5000
 - Home Page: Overview and navigation options
 - Account Management: Create account, log in, view account details, manage transactions
 - Transaction History: View detailed transaction history for each account
 
-Testing
+8 **Testing**
 
-- Run tests: pytest
+- Run tests:
 
-Screenshots and Links
+```bash
+pytest
+```
 
-- Deployed Site: [Pure Bank Live](replace with actual link)
-- Final Project Blog Article: [Pure Bank Project Blog](replace with actual link)
-- Author's LinkedIn: [Shakiru Oluwasegun Yusuf](replace with actual link)
+9. **Screenshots and Links**
 
-Contributing
+- **Deployed Site:** [Pure Bank Live](https://youtu.be/qtPoXgTuAlo)
+- **Final Project Blog Article:** [Pure Bank Project Blog](https://shakiru137.github.io/Blog-Post/)
+- **Author's LinkedIn:** [Shakiru Oluwasegun Yusuf](http://linkedin.com/in/yusuf-shakiru-oluwasegun)
+- **Project’s Landing Page:** [Pure Bank Landing Page](https://shakiru137.github.io/Landing_Page/)
+- **GitHub Repository:** [Pure Bank Repository](https://github.com/shakiru137/MVP_Portfolio_Project)
+
+10. **Contributing**
 
 - Fork the repository
 - Create a new branch: git checkout -b feature-branch
@@ -112,12 +130,11 @@ Contributing
 - Push to the branch: git push origin feature-branch
 - Open a Pull Request
 
-License
+11. **License**
 
-- This project is licensed under the MIT License
-- See the LICENSE file for details
+- This project is licensed under the ALXSWE PROGRAM License
 
-Related Projects
+12. **Related Projects**
 
 - Flask Mega-Tutorial
 - Flask-SQLAlchemy
