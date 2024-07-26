@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: flask-app
+    env: python3
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn app:app"
+    # Replace `app:app` with your Flask instance
+    envVars:
+      - key: FLASK_ENV
+        value: production
+
