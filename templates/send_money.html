@@ -27,9 +27,15 @@
         <!-- Navigation menu -->
         <nav class="main-nav">
           <ul>
-            <li><a href="{{ url_for('index') }}">Home</a></li>
-            <li><a href="{{ url_for('service') }}">Services</a></li>
-            <li><a href="{{ url_for('about') }}">About Us</a></li>
+            <li>
+              <a
+                href="{{ url_for('account', account_number=account[5]) }}"
+                class="button"
+                >Back to Account</a
+              >
+            </li>
+            <!-- <li><a href="{{ url_for('service') }}">Services</a></li>
+            <li><a href="{{ url_for('about') }}">About Us</a></li> -->
           </ul>
         </nav>
       </div>
@@ -54,25 +60,35 @@
 
       <!-- Form for sending money -->
       <form
-        action="{{ url_for('send_money', sender_id=account[0]) }}"
+        action="{{ url_for('send_money', sender_number=account[5]) }}"
         method="POST"
       >
-        <!-- Recipient account ID field -->
-        <label for="recipient_id">Recipient Account ID:</label>
-        <input type="number" id="recipient_id" name="recipient_id" required />
+        <!-- Recipient account number field -->
+        <label for="recipient_number">Recipient Account Number:</label>
+        <input
+          type="number"
+          id="recipient_number"
+          name="recipient_number"
+          required
+        />
+
+        <br /><br />
 
         <!-- Amount to send field -->
         <label for="amount">Amount to Send:</label>
         <input type="number" id="amount" name="amount" required />
 
+        <br /><br />
         <!-- Submit button for the form -->
         <button type="submit">Send</button>
       </form>
 
       <!-- Link to return to the account page -->
-      <a href="{{ url_for('account', account_id=account[0]) }}" class="button"
+      <!-- <a
+        href="{{ url_for('account', account_number=account[5]) }}"
+        class="button"
         >Back to Account</a
-      >
+      > -->
     </div>
 
     <!-- Footer section with links and contact information -->

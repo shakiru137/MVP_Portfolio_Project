@@ -27,9 +27,15 @@
         <!-- Navigation menu -->
         <nav class="main-nav">
           <ul>
-            <li><a href="{{ url_for('index') }}">Home</a></li>
-            <li><a href="{{ url_for('service') }}">Services</a></li>
-            <li><a href="{{ url_for('about') }}">About Us</a></li>
+            <li>
+              <a
+                href="{{ url_for('account', account_number=account[5]) }}"
+                class="button"
+                >Back to Account</a
+              >
+            </li>
+            <!-- <li><a href="{{ url_for('service') }}">Services</a></li>
+            <li><a href="{{ url_for('about') }}">About Us</a></li> -->
           </ul>
         </nav>
       </div>
@@ -54,7 +60,7 @@
 
       <!-- Deposit money form -->
       <form
-        action="{{ url_for('deposit_money', account_id=account[0]) }}"
+        action="{{ url_for('deposit_money', account_number=account[5]) }}"
         method="POST"
       >
         <!-- Amount input field -->
@@ -66,9 +72,11 @@
       </form>
 
       <!-- Link to return to the account page -->
-      <a href="{{ url_for('account', account_id=account[0]) }}" class="button"
+      <!-- <a
+        href="{{ url_for('account', account_number=account[5]) }}"
+        class="button"
         >Back to Account</a
-      >
+      > -->
     </div>
 
     <!-- Footer section with links and contact information -->
@@ -88,9 +96,7 @@
         <div class="contact-info">
           <p>
             Contact us at:
-            <a href="mailto:yusufshakiruoluwasegun@gmail.com"
-              >support@purebank.com</a
-            >
+            <a href="mailto:support@purebank.com">support@purebank.com</a>
           </p>
           <p>Call us: +234-904-679-8810</p>
         </div>

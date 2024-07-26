@@ -1,48 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- Meta tags for character encoding and viewport settings -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <!-- Page title -->
     <title>Withdraw Money</title>
-
-    <!-- Link to the external stylesheet for page styling -->
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='styles.css') }}"
     />
   </head>
   <body>
-    <!-- Header section with logo and navigation menu -->
     <header>
       <div class="header-container">
-        <!-- Logo image and site title -->
-        <img src="../static/images/bank_logo.png" alt="Pure Bank Logo" />
+        <img
+          src="{{ url_for('static', filename='images/bank_logo.png') }}"
+          alt="Pure Bank Logo"
+        />
         <div class="logo">
           <h1>Pure Bank</h1>
         </div>
-
-        <!-- Navigation menu -->
         <nav class="main-nav">
           <ul>
-            <li><a href="{{ url_for('index') }}">Home</a></li>
-            <li><a href="{{ url_for('service') }}">Services</a></li>
-            <li><a href="{{ url_for('about') }}">About Us</a></li>
+            <li>
+              <a
+                href="{{ url_for('account', account_number=account[5]) }}"
+                class="button"
+                >Back to Account</a
+              >
+            </li>
+            <!-- <li><a href="{{ url_for('service') }}">Services</a></li>
+            <li><a href="{{ url_for('about') }}">About Us</a></li> -->
           </ul>
         </nav>
       </div>
-      <!-- Optional horizontal line -->
-      <!-- <hr /> -->
     </header>
 
-    <!-- Main content area -->
     <div class="container">
-      <!-- Main heading for the withdraw money page -->
       <h1>Withdraw Money</h1>
 
-      <!-- Display flashed messages if available -->
       {% with messages = get_flashed_messages(with_categories=True) %} {% if
       messages %}
       <ul class="flashes">
@@ -52,9 +47,8 @@
       </ul>
       {% endif %} {% endwith %}
 
-      <!-- Form for withdrawing money -->
       <form
-        action="{{ url_for('withdraw_money', account_id=account[0]) }}"
+        action="{{ url_for('withdraw_money', account_number=account[5]) }}"
         method="POST"
       >
         <label for="amount">Amount to Withdraw:</label>
@@ -62,16 +56,16 @@
         <button type="submit">Withdraw</button>
       </form>
 
-      <!-- Link to go back to the account page -->
-      <a href="{{ url_for('account', account_id=account[0]) }}" class="button"
+      <!-- Link to return to the account page -->
+      <!-- <a
+        href="{{ url_for('account', account_number=account[5]) }}"
+        class="button"
         >Back to Account</a
-      >
+      > -->
     </div>
 
-    <!-- Footer section with links and contact information -->
     <footer>
       <div class="footer-container">
-        <!-- Footer links -->
         <div class="footer-links">
           <ul>
             <li><a href="#privacy">Privacy Policy</a></li>
@@ -81,7 +75,6 @@
           </ul>
         </div>
 
-        <!-- Contact information -->
         <div class="contact-info">
           <p>
             Contact us at:
@@ -92,7 +85,6 @@
           <p>Call us: +234-904-679-8810</p>
         </div>
 
-        <!-- Social media links -->
         <div class="social-media">
           <a href="https://web.facebook.com/yusuf.shakiruoluwasegun"
             >Facebook</a
@@ -101,7 +93,6 @@
           <a href="http://linkedin.com/in/yusuf-shakiru-oluwasegun">LinkedIn</a>
         </div>
 
-        <!-- Copyright information -->
         <div class="copyright">
           <p>&copy; 2024 Pure Bank. All rights reserved.</p>
         </div>
