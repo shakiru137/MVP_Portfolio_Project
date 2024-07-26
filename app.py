@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from flask import Flask, render_template, request, redirect, url_for, flash
+from flask_bcrypt import Bcrypt
 import mysql.connector
 
 app = Flask(__name__, static_folder='static')
