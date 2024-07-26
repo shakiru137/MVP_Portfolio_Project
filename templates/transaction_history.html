@@ -32,8 +32,6 @@
                 >Back to Account</a
               >
             </li>
-            <!-- <li><a href="{{ url_for('service') }}">Services</a></li>
-            <li><a href="{{ url_for('about') }}">About Us</a></li> -->
           </ul>
         </nav>
       </div>
@@ -59,22 +57,15 @@
           <tbody>
             {% for transaction in transactions %}
             <tr>
-              <td>{{ transaction[0] }}</td>
-              <td>{{ transaction[1] }}</td>
-              <td>{{ transaction[2] }}</td>
-              <td>{{ transaction[3] }}</td>
-              <td>{{ transaction[4] }}</td>
+              <td data-label="Transaction ID">{{ transaction[0] }}</td>
+              <td data-label="Account ID">{{ transaction[1] }}</td>
+              <td data-label="Type">{{ transaction[2] }}</td>
+              <td data-label="Amount">{{ transaction[3] }}</td>
+              <td data-label="Timestamp">{{ transaction[4] }}</td>
             </tr>
             {% endfor %}
           </tbody>
         </table>
-
-        <!-- Link to return to the account page -->
-        <!-- <a
-          href="{{ url_for('account', account_number=account[5]) }}"
-          class="button"
-          >Back to Account</a
-        > -->
       </div>
     </main>
 

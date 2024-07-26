@@ -6,339 +6,290 @@ ul,
 li,
 input,
 button {
-  margin: 0; /* Remove default margin */
-  padding: 0; /* Remove default padding */
-  box-sizing: border-box; /* Include padding and border in element's total width and height */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 /* Body styling */
 body {
-  /* background-image: url("./images/background.jpg"); */
-  background-size: cover; /* Ensure background image covers the entire body */
-  background-position: center; /* Center the background image */
-  background-repeat: no-repeat; /* Prevent background image from repeating */
-  min-height: 100vh; /* Ensure body covers at least the full viewport height */
-  display: flex; /* Use flexbox for layout */
-  flex-direction: column; /* Arrange child elements vertically */
-  animation: backgroundSlideshow 10s infinite alternate; /* Apply background slideshow animation */
-  margin: 0; /* Use default margin */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  animation: backgroundSlideshow 10s infinite alternate;
+  margin: 0;
   overflow-x: hidden;
+  padding-top: 150px; /* Adjust padding for header */
 }
 
 /* Background slideshow animation */
 @keyframes backgroundSlideshow {
   0% {
-    background-image: url("../static/images/background.jpg"); /* Start with the first image */
+    background-image: url("../static/images/background.jpg");
   }
   50% {
-    background-image: url("../static/images/background2.jpg"); /* Transition to the second image */
+    background-image: url("../static/images/background2.jpg");
   }
   100% {
-    background-image: url("../static/images/background3.jpg"); /* End with the third image */
+    background-image: url("../static/images/background3.jpg");
   }
 }
 
 /* Container styling */
 .container {
-  max-width: 50%; /* Limit the container's width to 50% of its parent */
-  margin: 0 auto; /* Center the container horizontally */
-  padding: 15px; /* Add padding inside the container */
-  background-color: rgba(
-    255,
-    255,
-    255,
-    0.8
-  ); /* White background with slight transparency */
-  border-radius: 8px; /* Round the corners */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.8); /* Add a shadow around the container */
-  overflow: hidden; /* Hide any overflow content */
-  text-align: center; /* Center text inside the container */
-}
-
-#container {
-  max-width: 50%; /* Limit the container's width to 50% of its parent */
-  margin: 0 auto; /* Center the container horizontally */
-  padding: 15px; /* Add padding inside the container */
-  background-color: rgba(
-    255,
-    255,
-    255,
-    0.8
-  ); /* White background with slight transparency */
-  border-radius: 8px; /* Round the corners */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.8); /* Add a shadow around the container */
-  overflow: hidden; /* Hide any overflow content */
-  text-align: center; /* Center text inside the container */
+  max-width: 90%; /* Updated to 90% for better responsiveness */
+  margin: 0 auto;
+  padding: 15px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+  overflow: hidden;
+  text-align: center;
 }
 
 /* Header and Footer styling */
-header,
-footer {
-  background-color: rgba(
-    255,
-    255,
-    255,
-    0.8
-  ); /* White background with slight transparency */
-  padding-right: 50px; /* Add padding inside header and footer */
-  text-align: center; /* Center text inside header and footer */
-}
-
 header {
   position: fixed;
   top: 0;
-  left: 0;
+  background-color: rgba(255, 255, 255, 0.8);
+  height: 100px;
+  text-align: center;
+  padding: 0 2%; /* Added percentage padding */
   width: 100%;
-  z-index: 1000; /* Ensure it stays on top of other content */
-}
-/* Footer section */
-footer {
-  margin-top: auto; /* Push footer to the bottom of the page */
-}
-
-header,
-footer {
-  flex-shrink: 0; /* Prevent header and footer from shrinking */
+  left: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
+footer {
+  background-color: rgba(255, 255, 255, 0.8);
+  height: auto;
+  padding: 10px 2%;
+  width: 100%;
+  left: 0;
+  z-index: 1000;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Main content styling */
 main {
-  flex: 1 0 auto; /* Allow main content to grow and shrink as needed */
-  padding: 50px; /* Add padding inside main content area */
-  padding-top: 100px;
+  flex: 1;
+  padding: 20px;
+  padding-top: 70px; /* Adjusted for header height */
 }
 
-/* Container styling inside header and footer */
+/* Header and Footer Containers */
 .header-container,
 .footer-container {
-  display: flex; /* Use flexbox for layout */
-  justify-content: space-between; /* Distribute space between child elements */
-  align-items: center; /* Align child elements vertically */
-  width: 100%; /* Full width */
-  padding: 0 20px; /* Add horizontal padding */
-}
-
-/* Logo styling */
-.header-container .logo h1 {
-  margin: 0; /* Remove default margin */
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
 }
 
 /* Navigation and Footer links styling */
 .main-nav ul,
 .footer-links ul {
-  list-style-type: none; /* Remove bullet points from lists */
-  display: flex; /* Use flexbox for layout */
-  gap: 20px; /* Add space between list items */
-  padding: 0; /* Remove default padding */
+  list-style-type: none;
+  display: flex;
+  gap: 10px;
+  padding: 0;
+  flex-wrap: wrap;
 }
 
 .main-nav a,
 .footer-links a {
-  text-decoration: none; /* Remove underline from links */
-  color: #29a6e6; /* Set link color */
+  text-decoration: none;
+  color: #29a6e6;
 }
 
 nav {
-  padding-top: 30px; /* Add top padding */
-  padding-right: 20px; /* Add right padding */
+  padding-top: 10px;
 }
 
 /* Contact info and social media links styling */
 .contact-info p {
-  margin: 5px 0; /* Add vertical margin */
-  color: #6c757d; /* Set text color */
+  margin: 5px 0;
+  color: #6c757d;
 }
 
 .social-media a {
-  margin-left: 10px; /* Add left margin */
-  text-decoration: none; /* Remove underline from links */
-  color: #29a6e6; /* Set link color */
+  margin-left: 10px;
+  text-decoration: none;
+  color: #29a6e6;
 }
 
 .footer-container {
-  flex-direction: column; /* Arrange child elements vertically */
-  align-items: center; /* Center child elements horizontally */
+  flex-direction: column;
+  align-items: center;
 }
 
 .footer-links,
 .contact-info,
 .social-media {
-  margin: 10px 0; /* Add vertical margin */
+  margin: 10px 0;
 }
 
 .footer-links ul {
-  flex-direction: column; /* Arrange list items vertically */
-  align-items: center; /* Center list items horizontally */
+  flex-direction: column;
+  align-items: center;
 }
 
 .social-media {
-  display: flex; /* Use flexbox for layout */
-  gap: 5px; /* Add space between social media links */
+  display: flex;
+  gap: 5px;
 }
 
 @media (min-width: 768px) {
   .footer-container {
-    flex-direction: row; /* Arrange child elements horizontally on larger screens */
-    justify-content: space-between; /* Distribute space between child elements */
+    flex-direction: row;
+    justify-content: space-between;
   }
 
   .footer-links ul {
-    flex-direction: row; /* Arrange list items horizontally on larger screens */
-    gap: 20px; /* Add space between list items */
+    flex-direction: row;
+    gap: 10px;
   }
 
   .contact-info,
   .social-media {
-    margin: 0; /* Remove vertical margin on larger screens */
+    margin: 0;
   }
 }
 
-.container p {
-  color: #6c757d; /* Set text color */
-  font-size: 1rem; /* Set font size */
-}
-
-.logo h1 {
-  text-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add a subtle shadow to the text */
-  font-size: 3.5rem; /* Set font size */
-  color: #29a6e6; /* Set text color */
-  padding-left: 100px; /* Add left padding */
-}
-
-.container h1 {
-  font-size: 1.875rem; /* Set font size */
-  color: #635454; /* Set text color */
-}
-
-/* Text styling */
+/* Typography */
 h1 {
-  margin-bottom: 20px; /* Add bottom margin */
-  text-align: center; /* Center text */
+  margin-bottom: 20px;
+  text-align: center;
+  color: #6c757d;
 }
 
 p {
-  margin-bottom: 10px; /* Add bottom margin */
+  margin-bottom: 10px;
 }
 
 ul {
-  list-style-type: none; /* Remove bullet points from lists */
-  margin-bottom: 20px; /* Add bottom margin */
+  list-style-type: none;
+  margin-bottom: 20px;
 }
 
 ul li {
-  margin-bottom: 10px; /* Add bottom margin */
+  margin-bottom: 10px;
 }
 
 a {
-  text-decoration: none; /* Remove underline from links */
-  color: #29a6e6; /* Set link color */
-  font-size: 1.1rem; /* Set font size */
+  text-decoration: none;
+  color: #29a6e6;
+  font-size: 1.1rem;
 }
 
 a:hover {
-  text-decoration: underline; /* Add underline on hover */
+  text-decoration: underline;
 }
 
 label {
-  display: block; /* Display label as block element */
-  margin-bottom: 5px; /* Add bottom margin */
-  color: #29a6e6; /* Set text color */
+  display: block;
+  margin-bottom: 5px;
+  color: #29a6e6;
 }
 
 /* Form element styling */
-input[type="text"] {
-  color: #6c757d; /* Set text color */
-  width: 70%; /* Set width */
-  padding: 10px; /* Add padding inside input */
-  border: 1px solid #29a6e6; /* Add border with color */
-  border-radius: 10px; /* Round the corners */
-  font-size: 1.2rem; /* Set font size */
-}
-
+input[type="text"],
 input[type="password"] {
-  color: #6c757d; /* Set text color */
-  width: 70%; /* Set width */
-  padding: 10px; /* Add padding inside input */
-  border: 1px solid #29a6e6; /* Add border with color */
-  border-radius: 10px; /* Round the corners */
-  font-size: 1.2rem; /* Set font size */
+  color: #6c757d;
+  width: 80%; /* Adjusted to 80% */
+  padding: 10px;
+  border: 1px solid #29a6e6;
+  border-radius: 10px;
+  font-size: 1.2rem;
 }
 
 button {
-  padding: 10px 20px; /* Add padding inside button */
-  background-color: #007bff; /* Set background color */
-  color: #fff; /* Set text color */
-  border: none; /* Remove border */
-  border-radius: 4px; /* Round the corners */
-  cursor: pointer; /* Change cursor to pointer */
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 button:hover {
-  background-color: #0056b3; /* Change background color on hover */
+  background-color: #0056b3;
 }
 
 .error {
-  color: red; /* Set text color for error messages */
+  color: red;
 }
 
 .success {
-  color: green; /* Set text color for success messages */
+  color: green;
 }
 
 a.logout:hover {
-  color: red; /* Change link color on hover */
+  color: red;
 }
 
 .copyright {
-  font-size: 0.875rem; /* Set font size */
-  color: #6c757d; /* Set text color */
+  font-size: 0.875rem;
+  color: #6c757d;
+  margin-right: 5%;
 }
 
-/* This will apply to all images */
+/* Image styling */
 img {
-  width: 100px; /* Set image width */
-  height: 100px; /* Set image height */
-  margin: -10px; /* Add negative margin around all images */
-  cursor: pointer; /* Change cursor to pointer */
+  width: 100px;
+  height: 100px;
+  margin: -10px;
+  cursor: pointer;
 }
 
-/* This will apply to password viewing */
+/* Password viewing */
 .password-container {
-  position: relative; /* Position relative to contain the icon */
-  width: 100%; /* Full width */
+  position: relative;
+  width: 100%;
 }
 
 .password-input {
-  width: 100%; /* Full width */
-  padding: 10px; /* Add padding inside input */
-  padding-right: 40px; /* Add space for the icon on the right */
-  margin-bottom: 15px; /* Add bottom margin */
-  border: 1px solid #ccc; /* Add border */
-  border-radius: 4px; /* Round the corners */
+  width: 100%;
+  padding: 10px;
+  padding-right: 40px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .toggle-password {
-  position: absolute; /* Position icon absolutely within container */
-  top: 50%; /* Center vertically */
-  right: 100px; /* Position icon 10px from the right */
-  transform: translateY(-50%); /* Center vertically */
-  cursor: pointer; /* Change cursor to pointer */
+  position: absolute;
+  top: 50%;
+  right: 5%; /* Adjusted to 5% */
+  transform: translateY(-50%);
+  cursor: pointer;
 }
 
 .toggle-password i {
-  font-size: 1rem; /* Set icon font size */
-  color: #007bff; /* Set icon color */
+  font-size: 1rem;
+  color: #007bff;
 }
 
 .toggle-password i:hover {
-  font-size: 1.2rem; /* Increase icon size on hover */
-  color: #29a6e6; /* Change icon color on hover */
+  font-size: 1.2rem;
+  color: #6c757d;
 }
 
-#select {
-  color: #29a6e6; /* Set text color */
+.select {
+  color: #6c757d;
 }
 
-/* Table Styles */
+/* Base Table Styles */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -370,11 +321,53 @@ tr:hover {
   background-color: #e9e9e9;
 }
 
+/* Responsive Table */
+@media screen and (max-width: 600px) {
+  table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
+  }
+
+  tr {
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+  }
+
+  th,
+  td {
+    text-align: right;
+    position: relative;
+    padding-left: 50%;
+  }
+
+  th::before,
+  td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 10px;
+    width: calc(50% - 20px);
+    padding-right: 10px;
+    text-align: left;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+}
+
+/* Account styling */
 .acct {
   display: flex;
-  flex-direction: column; /* Arrange items vertically */
+  flex-direction: column;
   gap: 10px;
-  padding: 20px;
+  padding: 15px; /* Updated to 15px */
   background-color: rgba(255, 255, 255, 0.5);
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -383,36 +376,38 @@ tr:hover {
 
 .info-item {
   display: flex;
-  justify-content: space-between; /* Space out label and value */
+  flex-direction: column; /* Stack label and value vertically on smaller screens */
+  align-items: flex-start;
 }
 
 .label {
   font-weight: bold;
   color: #6c757d;
-  flex: 1; /* Ensure labels take up appropriate space */
 }
 
 .value {
-  text-align: right;
+  text-align: left; /* Align values to the left on smaller screens */
   font-size: 1.2rem;
   color: #29a6e6;
   font-style: italic;
   font-weight: bolder;
-  flex: 1; /* Allow values to take more space */
 }
 
-/* Responsive adjustment */
 @media (max-width: 600px) {
   .acct {
     padding: 15px;
   }
 
   .info-item {
-    flex-direction: column; /* Stack label and value vertically */
-    align-items: flex-start; /* Align items to start */
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .label {
+    margin-bottom: 5px;
   }
 
   .value {
-    text-align: left; /* Align values to the left on smaller screens */
+    text-align: left;
   }
 }
