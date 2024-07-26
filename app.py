@@ -1,45 +1,44 @@
-#!/usr/bin/env python3
-"""
-This module sets up a Flask application for a banking system with basic functionalities
-such as account creation, login, deposit, withdrawal, money transfer, and transaction history.
-It uses MySQL as the database and bcrypt for password hashing.
-"""
-
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_bcrypt import Bcrypt
 import mysql.connector
 
-# Initialize the Flask application
 app = Flask(__name__, static_folder='static')
 app.secret_key = 'your_secret_key'
 
-# Database configuration
 DB_HOST = 'localhost'
 DB_USER = 'root'
 DB_PASSWORD = 'oluwasegun137'
 DB_NAME = 'mybank'
 
-# Establish a connection to the MySQL database
-db_connection = mysql.connector.connect(
-    host=DB_HOST,
-    user=DB_USER,
-    password=DB_PASSWORD,
-    database=DB_NAME
-)
-
-# Create a cursor object to interact with the database
-db_cursor = db_connection.cursor()
-
-# Initialize bcrypt for password hashing
+# Initialize the bcrypt object
 bcrypt = Bcrypt(app)
 
-def is_valid_amount(amount):
-    """
-    Validates if the input amount is a positive number.
+# Create a function to get a new database connection and cursor
+def get_db_connection():
+    db_connection = mysql.connector.connect(
+        host=DB_HOST,
+        user=DB_USER,
+        password=DB_PASSWORD,
+        database=DB_NAME
+    )
+    return db_connection
 
-    :param amount: The amount to validate
-    :return: True if the amount is valid, False otherwise
-    """
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+def is_username_taken(username):
+    """Check if the username is already taken."""
+    db_connection = get_db_connection()
+    db_cursor = db_connection.cursor()
+    db_cursor.execute("SELECT * FROM accounts WHERE username = %s", (username,))
+    user = db_cursor.fetchone()
+    db_cursor.close()
+    db_connection.close()
+    return user is not None
+
+# Function to validate if the amount is a positive number
+def is_valid_amount(amount):
     try:
         amount = float(amount)
         if amount <= 0:
@@ -47,32 +46,26 @@ def is_valid_amount(amount):
         return True
     except ValueError:
         return False
-
-@app.route('/')
-def index():
-    """
-    Renders the home page.
-
-    :return: Rendered HTML of the home page
-    """
-    return render_template('index.html')
-
 @app.route('/create_account', methods=['GET', 'POST'])
 def create_account():
-    """
-    Handles account creation. Hashes the password and stores the account details in the database.
-
-    :return: Rendered HTML of the account creation page or redirects to the same page after account creation
-    """
     if request.method == 'POST':
         name = request.form['name']
         username = request.form['username']
         password = request.form['password']
+
+        if is_username_taken(username):
+            flash('Username already taken. Please choose another username.', 'error')
+            return render_template('create_account.html')
+
         hash_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
+        db_connection = get_db_connection()
+        db_cursor = db_connection.cursor()
         db_cursor.execute("INSERT INTO accounts (name, username, password, balance) VALUES (%s, %s, %s, %s)",
                           (name, username, hash_password, 0))
         db_connection.commit()
+        db_cursor.close()
+        db_connection.close()
 
         flash('Account created successfully!', 'success')
         return redirect(url_for('create_account'))
@@ -81,45 +74,47 @@ def create_account():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    """
-    Handles user login by verifying the username and password.
-
-    :return: Rendered HTML of the login page or account page if login is successful
-    """
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
 
+        db_connection = get_db_connection()
+        db_cursor = db_connection.cursor()
         db_cursor.execute("SELECT * FROM accounts WHERE username = %s", (username,))
         account = db_cursor.fetchone()
+        db_cursor.close()
+        db_connection.close()
 
-        if account and bcrypt.check_password_hash(account[3], password):
-            return render_template('account.html', account=account)
+        if account:
+            stored_password = account[3]  # Assuming password is the 4th column
+            try:
+                if bcrypt.check_password_hash(stored_password, password):
+                    return render_template('account.html', account=account)
+                else:
+                    error = 'Invalid credentials'
+            except ValueError:
+                error = 'Invalid password hash'
         else:
-            flash('Invalid credentials', 'error')
+            error = 'Invalid credentials'
+
+        return render_template('login.html', error=error)
 
     return render_template('login.html')
 
-def log_transaction(account_id, transaction_type, amount):
-    """
-    Logs a transaction in the database.
 
-    :param account_id: ID of the account
-    :param transaction_type: Type of transaction (withdrawal, deposit, transfer, receive)
-    :param amount: Amount involved in the transaction
-    """
+def log_transaction(account_id, transaction_type, amount):
+    db_connection = get_db_connection()
+    db_cursor = db_connection.cursor()
     db_cursor.execute("INSERT INTO transactions (account_id, type, amount) VALUES (%s, %s, %s)", 
                       (account_id, transaction_type, amount))
     db_connection.commit()
+    db_cursor.close()
+    db_connection.close()
 
 @app.route('/withdraw_money/<int:account_id>', methods=['GET', 'POST'])
 def withdraw_money(account_id):
-    """
-    Handles money withdrawal from an account.
-
-    :param account_id: ID of the account
-    :return: Rendered HTML of the withdrawal page
-    """
+    db_connection = get_db_connection()
+    db_cursor = db_connection.cursor()
     db_cursor.execute("SELECT * FROM accounts WHERE id = %s", (account_id,))
     account = db_cursor.fetchone()
 
@@ -145,16 +140,14 @@ def withdraw_money(account_id):
         else:
             flash('Insufficient funds!', 'error')
 
+    db_cursor.close()
+    db_connection.close()
     return render_template('withdraw_money.html', account=account)
 
 @app.route('/deposit_money/<int:account_id>', methods=['GET', 'POST'])
 def deposit_money(account_id):
-    """
-    Handles money deposit into an account.
-
-    :param account_id: ID of the account
-    :return: Rendered HTML of the deposit page
-    """
+    db_connection = get_db_connection()
+    db_cursor = db_connection.cursor()
     db_cursor.execute("SELECT * FROM accounts WHERE id = %s", (account_id,))
     account = db_cursor.fetchone()
 
@@ -177,16 +170,14 @@ def deposit_money(account_id):
         flash('Deposit successful!', 'success')
         return render_template('deposit_money.html', account=account)
 
+    db_cursor.close()
+    db_connection.close()
     return render_template('deposit_money.html', account=account)
 
 @app.route('/send_money/<int:sender_id>', methods=['GET', 'POST'])
 def send_money(sender_id):
-    """
-    Handles money transfer between accounts.
-
-    :param sender_id: ID of the sender's account
-    :return: Rendered HTML of the send money page
-    """
+    db_connection = get_db_connection()
+    db_cursor = db_connection.cursor()
     db_cursor.execute("SELECT * FROM accounts WHERE id = %s", (sender_id,))
     sender_account = db_cursor.fetchone()
 
@@ -227,18 +218,18 @@ def send_money(sender_id):
         else:
             flash('Insufficient funds!', 'error')
 
+    db_cursor.close()
+    db_connection.close()
     return render_template('send_money.html', account=sender_account)
 
 @app.route('/account/<int:account_id>')
 def account(account_id):
-    """
-    Displays account details.
-
-    :param account_id: ID of the account
-    :return: Rendered HTML of the account page or 404 page if account not found
-    """
+    db_connection = get_db_connection()
+    db_cursor = db_connection.cursor()
     db_cursor.execute("SELECT * FROM accounts WHERE id = %s", (account_id,))
     account = db_cursor.fetchone()
+    db_cursor.close()
+    db_connection.close()
 
     if account:
         return render_template('account.html', account=account, account_id=account_id)
@@ -247,36 +238,27 @@ def account(account_id):
 
 @app.route('/transaction_history/<int:account_id>')
 def transaction_history(account_id):
-    """
-    Displays transaction history for an account.
+    db_connection = get_db_connection()
+    db_cursor = db_connection.cursor()
 
-    :param account_id: ID of the account
-    :return: Rendered HTML of the transaction history page
-    """
+    # Fetch account details
     db_cursor.execute("SELECT * FROM accounts WHERE id = %s", (account_id,))
     account = db_cursor.fetchone()
 
+    # Fetch transaction history
     db_cursor.execute("SELECT * FROM transactions WHERE account_id = %s ORDER BY timestamp DESC", (account_id,))
     transactions = db_cursor.fetchall()
 
+    db_cursor.close()
+    db_connection.close()
     return render_template('transaction_history.html', transactions=transactions, account=account)
 
 @app.route('/service/', methods=['GET', 'POST'])
 def service():
-    """
-    Renders the service page.
-
-    :return: Rendered HTML of the service page
-    """
     return render_template('service.html')
 
 @app.route('/about/', methods=['GET', 'POST'])
 def about():
-    """
-    Renders the about page.
-
-    :return: Rendered HTML of the about page
-    """
     return render_template('about.html')
 
 if __name__ == '__main__':
