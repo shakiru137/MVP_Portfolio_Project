@@ -47,7 +47,7 @@ body {
 
 /* Container styling */
 .container {
-  max-width: 90%; /* Updated to 90% for better responsiveness */
+  max-width: 50%; /* Updated to 90% for better responsiveness */
   margin: 0 auto;
   padding: 15px;
   background-color: rgba(255, 255, 255, 0.8);
