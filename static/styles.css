@@ -28,7 +28,7 @@ body {
   flex-direction: column;
   animation: backgroundSlideshow 10s infinite alternate;
   margin: 0;
-  overflow-x: hidden;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
   padding-top: 150px; /* Adjust padding for header */
 }
 

@@ -76,31 +76,13 @@ function validateForm() {
 document.addEventListener(
   "touchstart",
   function (event) {
-    event.preventDefault();
-  },
-  { passive: false }
-);
-
-let startX = 0;
-
-document.addEventListener(
-  "touchstart",
-  function (event) {
-    startX = event.touches[0].clientX;
-  },
-  { passive: false }
-);
-
-document.addEventListener(
-  "touchmove",
-  function (event) {
-    let moveX = event.touches[0].clientX;
-    let diffX = moveX - startX;
-
-    // Prevent default behavior if horizontal scroll is detected
-    if (Math.abs(diffX) > 0) {
+    if (event.touches.length > 1) {
       event.preventDefault();
     }
   },
   { passive: false }
 );
+
+document.addEventListener("gesturestart", function (event) {
+  event.preventDefault();
+});
