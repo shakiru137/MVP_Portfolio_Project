@@ -45,6 +45,14 @@ body {
   }
 }
 
+/* Responsive adjustments for background images */
+@media (max-width: 600px) {
+  body {
+    background-size: cover; /* Ensures the background covers the viewport */
+    background-position: center; /* Keeps the background centered */
+  }
+}
+
 /* Container styling */
 .container {
   max-width: 100%; /* Updated to 90% for better responsiveness */
