@@ -110,6 +110,7 @@ main {
   gap: 10px;
   padding: 0;
   flex-wrap: wrap;
+  color: red;
 }
 
 .main-nav a,
@@ -118,6 +119,9 @@ main {
   color: #29a6e6;
 }
 
+.main-nav {
+  margin-right: 40px;
+}
 nav {
   padding-top: 10px;
 }
