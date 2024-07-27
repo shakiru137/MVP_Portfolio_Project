@@ -73,7 +73,7 @@ header {
   background-color: rgba(255, 255, 255, 0.8);
   height: 100px;
   text-align: center;
-  padding: 0 2%; /* Added percentage padding */
+  padding: 0;
   width: 100%;
   left: 0;
   z-index: 1000;
@@ -85,7 +85,7 @@ header {
 footer {
   background-color: rgba(255, 255, 255, 0.8);
   height: auto;
-  padding: 10px 2%;
+  padding: 0;
   width: 100%;
   left: 0;
   z-index: 1000;
