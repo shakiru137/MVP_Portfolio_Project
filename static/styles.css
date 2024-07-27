@@ -15,7 +15,6 @@ body {
   height: 100%;
   margin: 0;
   background-color: #e6d9d9;
-  overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
 /* Body styling */
@@ -28,6 +27,8 @@ body {
   display: flex;
   flex-direction: column;
   animation: backgroundSlideshow 10s infinite alternate;
+  margin: 0;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
   padding-top: 150px; /* Adjust padding for header */
 }
 
@@ -52,6 +53,7 @@ body {
   background-color: rgba(255, 255, 255, 0.8);
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+  overflow: hidden;
   text-align: center;
 }
 
@@ -91,7 +93,6 @@ main {
   padding: 20px;
   padding-top: 70px; /* Adjusted for header height */
   width: 100%;
-  overflow: hidden;
 }
 
 /* Header and Footer Containers */
