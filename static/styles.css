@@ -91,6 +91,7 @@ main {
   flex: 1;
   padding: 20px;
   padding-top: 70px; /* Adjusted for header height */
+  width: 100%;
 }
 
 /* Header and Footer Containers */
