@@ -10,6 +10,12 @@ button {
   padding: 0;
   box-sizing: border-box;
 }
+html,
+body {
+  height: 100%;
+  margin: 0;
+  background-color: #e6d9d9;
+}
 
 /* Body styling */
 body {
@@ -226,12 +232,19 @@ button:hover {
   background-color: #0056b3;
 }
 
+.button {
+  margin-right: 40px;
+}
 .error {
   color: red;
 }
 
 .success {
   color: green;
+}
+
+.logout {
+  margin-right: 40px;
 }
 
 a.logout:hover {
@@ -241,7 +254,7 @@ a.logout:hover {
 .copyright {
   font-size: 0.875rem;
   color: #6c757d;
-  margin-right: 5%;
+  padding-left: 10px;
 }
 
 /* Image styling */

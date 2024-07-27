@@ -43,41 +43,43 @@
       <!-- <hr /> -->
     </header>
 
-    <!-- Main content area -->
-    <div class="container">
-      <!-- Page header -->
-      <h1>Deposit Money</h1>
+    <main>
+      <!-- Main content area -->
+      <div class="container">
+        <!-- Page header -->
+        <h1>Deposit Money</h1>
 
-      <!-- Display flash messages if any -->
-      {% with messages = get_flashed_messages(with_categories=True) %} {% if
-      messages %}
-      <ul class="flashes">
-        {% for category, message in messages %}
-        <li class="{{ category }}">{{ message }}</li>
-        {% endfor %}
-      </ul>
-      {% endif %} {% endwith %}
+        <!-- Display flash messages if any -->
+        {% with messages = get_flashed_messages(with_categories=True) %} {% if
+        messages %}
+        <ul class="flashes">
+          {% for category, message in messages %}
+          <li class="{{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %} {% endwith %}
 
-      <!-- Deposit money form -->
-      <form
-        action="{{ url_for('deposit_money', account_number=account[5]) }}"
-        method="POST"
-      >
-        <!-- Amount input field -->
-        <label for="amount">Amount to Deposit:</label>
-        <input type="number" id="amount" name="amount" required />
+        <!-- Deposit money form -->
+        <form
+          action="{{ url_for('deposit_money', account_number=account[5]) }}"
+          method="POST"
+        >
+          <!-- Amount input field -->
+          <label for="amount">Amount to Deposit:</label>
+          <input type="number" id="amount" name="amount" required />
 
-        <!-- Submit button for the form -->
-        <button type="submit">Deposit</button>
-      </form>
+          <!-- Submit button for the form -->
+          <button type="submit">Deposit</button>
+        </form>
 
-      <!-- Link to return to the account page -->
-      <!-- <a
+        <!-- Link to return to the account page -->
+        <!-- <a
         href="{{ url_for('account', account_number=account[5]) }}"
         class="button"
         >Back to Account</a
       > -->
-    </div>
+      </div>
+    </main>
 
     <!-- Footer section with links and contact information -->
     <footer>

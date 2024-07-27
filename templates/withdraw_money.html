@@ -35,34 +35,36 @@
       </div>
     </header>
 
-    <div class="container">
-      <h1>Withdraw Money</h1>
+    <main>
+      <div class="container">
+        <h1>Withdraw Money</h1>
 
-      {% with messages = get_flashed_messages(with_categories=True) %} {% if
-      messages %}
-      <ul class="flashes">
-        {% for category, message in messages %}
-        <li class="{{ category }}">{{ message }}</li>
-        {% endfor %}
-      </ul>
-      {% endif %} {% endwith %}
+        {% with messages = get_flashed_messages(with_categories=True) %} {% if
+        messages %}
+        <ul class="flashes">
+          {% for category, message in messages %}
+          <li class="{{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %} {% endwith %}
 
-      <form
-        action="{{ url_for('withdraw_money', account_number=account[5]) }}"
-        method="POST"
-      >
-        <label for="amount">Amount to Withdraw:</label>
-        <input type="number" id="amount" name="amount" required />
-        <button type="submit">Withdraw</button>
-      </form>
+        <form
+          action="{{ url_for('withdraw_money', account_number=account[5]) }}"
+          method="POST"
+        >
+          <label for="amount">Amount to Withdraw:</label>
+          <input type="number" id="amount" name="amount" required />
+          <button type="submit">Withdraw</button>
+        </form>
 
-      <!-- Link to return to the account page -->
-      <!-- <a
+        <!-- Link to return to the account page -->
+        <!-- <a
         href="{{ url_for('account', account_number=account[5]) }}"
         class="button"
         >Back to Account</a
       > -->
-    </div>
+      </div>
+    </main>
 
     <footer>
       <div class="footer-container">
