@@ -1,36 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- Meta tags for character set and viewport settings -->
+    <!-- Meta tags for character encoding and viewport settings -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- Page title -->
-    <title>Create Account</title>
+    <title>Login</title>
     <link rel="icon" href="../static/images/bank_logo.png" type="image/png" />
 
-    <!-- Link to the external stylesheet for styling the page -->
+    <!-- Link to the external stylesheet for page styling -->
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='styles.css') }}"
     />
 
-    <!-- Link to Font Awesome for icons -->
+    <!-- Link to Font Awesome for icon support -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
-    <!-- Font Awesome -->
   </head>
   <body>
     <!-- Header section with logo and navigation menu -->
     <header>
       <div class="header-container">
         <!-- Logo image and site title -->
-        <img
-          src="{{ url_for('static', filename='images/bank_logo.png') }}"
-          alt="Pure Bank Logo"
-        />
+        <img src="../static/images/bank_logo.png" alt="Pure Bank Logo" />
         <div class="logo">
           <h1>Pure Bank</h1>
         </div>
@@ -44,39 +40,28 @@
           </ul>
         </nav>
       </div>
+      <!-- Optional horizontal line -->
+      <!-- <hr /> -->
     </header>
 
     <!-- Main content area -->
     <main>
       <div class="container">
-        <!-- Page header -->
-        <h1>Create Account</h1>
+        <!-- Main heading for the login page -->
+        <h1>Login to Your Account</h1>
 
-        <!-- Display flash messages if any -->
-        {% with messages = get_flashed_messages(with_categories=True) %} {% if
-        messages %}
-        <ul class="flashes">
-          {% for category, message in messages %}
-          <li class="{{ category }}">{{ message }}</li>
-          {% endfor %}
-        </ul>
-        {% endif %} {% endwith %}
+        <!-- Display error message if it exists -->
+        {% if error %}
+        <p class="error">{{ error }}</p>
+        {% endif %}
 
-        <!-- Account creation form -->
-        <form
-          action="{{ url_for('create_account') }}"
-          method="POST"
-          onsubmit="return validateForm()"
-        >
-          <!-- Full name input -->
-          <label for="name">Full Name</label>
-          <input type="text" id="name" name="name" required />
-
-          <!-- Username input -->
+        <!-- Login form -->
+        <form action="{{ url_for('login') }}" method="POST">
+          <!-- Username field -->
           <label for="username">Username</label>
           <input type="text" id="username" name="username" required />
 
-          <!-- Password input with toggle visibility feature -->
+          <!-- Password field with visibility toggle -->
           <label for="password">Password</label>
           <div class="password-container">
             <input
@@ -91,31 +76,8 @@
             </span>
           </div>
 
-          <!-- Confirm password input with toggle visibility feature -->
-          <label for="confirm_password">Confirm Password</label>
-          <div class="password-container">
-            <input
-              type="password"
-              id="confirm_password"
-              name="confirm_password"
-              class="password-input"
-              required
-            />
-            <span
-              class="toggle-password"
-              onclick="toggleConfirmPasswordVisibility()"
-            >
-              <i class="fa fa-eye" id="confirm-eye-icon"></i>
-            </span>
-          </div>
-
-          <!-- Error message for password mismatch -->
-          <p id="password-error" class="error" style="display: none">
-            Passwords do not match
-          </p>
-
-          <!-- Submit button for the form -->
-          <button type="submit">Create Account</button>
+          <!-- Submit button for the login form -->
+          <button type="submit">Login</button>
         </form>
       </div>
     </main>
@@ -158,8 +120,7 @@
       </div>
     </footer>
 
-    <!-- Link to external JavaScript file for additional functionality -->
+    <!-- Link to the external JavaScript file for interactive features -->
     <script src="{{ url_for('static', filename='script.js') }}"></script>
-    <!-- Link to your JS file -->
   </body>
 </html>

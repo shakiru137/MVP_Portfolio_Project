@@ -1,72 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Meta tags for character encoding and viewport settings -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Withdraw Money</title>
+
+    <!-- Page title -->
+    <title>Pure Bank - Home</title>
     <link rel="icon" href="../static/images/bank_logo.png" type="image/png" />
+
+    <!-- Link to the external stylesheet for styling the page -->
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='styles.css') }}"
     />
   </head>
   <body>
+    <!-- Header section with logo and navigation menu -->
     <header>
       <div class="header-container">
-        <img
-          src="{{ url_for('static', filename='images/bank_logo.png') }}"
-          alt="Pure Bank Logo"
-        />
+        <!-- Logo image and site title -->
+        <img src="../static/images/bank_logo.png" alt="Pure Bank Logo" />
         <div class="logo">
           <h1>Pure Bank</h1>
         </div>
-        <nav class="main-nav">
+
+        <!-- Navigation menu -->
+        <nav class="main-nav" id="nav">
           <ul>
-            <li>
-              <a
-                href="{{ url_for('account', account_number=account[5]) }}"
-                class="button"
-                >Back to Account</a
-              >
-            </li>
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('service') }}">Services</a></li>
+            <li><a href="{{ url_for('about') }}">About Us</a></li>
           </ul>
         </nav>
       </div>
     </header>
 
+    <!-- Main content area -->
     <main>
       <div class="container">
-        <h1>Withdraw Money</h1>
+        <!-- Main heading for the home page -->
+        <h1>Welcome to Pure Bank</h1>
 
-        {% with messages = get_flashed_messages(with_categories=True) %} {% if
-        messages %}
-        <ul class="flashes">
-          {% for category, message in messages %}
-          <li class="{{ category }}">{{ message }}</li>
-          {% endfor %}
+        <!-- Instruction text for users -->
+        <p class="select">Select an option</p>
+
+        <!-- List of options for users -->
+        <ul>
+          <li>
+            <!-- Link to create a new account -->
+            <a href="{{ url_for('create_account') }}">Open a new account</a>
+          </li>
+          <li>
+            <!-- Link to log in to an existing account -->
+            <a href="{{ url_for('login') }}">Log in to your account</a>
+          </li>
         </ul>
-        {% endif %} {% endwith %}
-
-        <form
-          action="{{ url_for('withdraw_money', account_number=account[5]) }}"
-          method="POST"
-        >
-          <label for="amount">Amount to Withdraw:</label>
-          <input type="number" id="amount" name="amount" required />
-          <button type="submit">Withdraw</button>
-        </form>
-
-        <!-- Link to return to the account page -->
-        <!-- <a
-        href="{{ url_for('account', account_number=account[5]) }}"
-        class="button"
-        >Back to Account</a
-      > -->
       </div>
     </main>
 
+    <!-- Footer section with links and contact information -->
     <footer>
       <div class="footer-container">
+        <!-- Footer links -->
         <div class="footer-links">
           <ul>
             <li><a href="#privacy">Privacy Policy</a></li>
@@ -76,6 +72,7 @@
           </ul>
         </div>
 
+        <!-- Contact information -->
         <div class="contact-info">
           <p>
             Contact us at:
@@ -86,6 +83,7 @@
           <p>Call us: +234-904-679-8810</p>
         </div>
 
+        <!-- Social media links -->
         <div class="social-media">
           <a href="https://web.facebook.com/yusuf.shakiruoluwasegun"
             >Facebook</a
@@ -94,6 +92,7 @@
           <a href="http://linkedin.com/in/yusuf-shakiru-oluwasegun">LinkedIn</a>
         </div>
 
+        <!-- Copyright information -->
         <div class="copyright">
           <p>&copy; 2024 Pure Bank. All rights reserved.</p>
         </div>
