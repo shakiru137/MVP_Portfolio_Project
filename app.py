@@ -9,8 +9,7 @@ from flask_bcrypt import Bcrypt
 from functools import wraps
 import mysql.connector
 import random
-
-
+import re
 
 
 
@@ -189,10 +188,33 @@ def create_account():
         name = request.form['name']
         username = request.form['username']
         password = request.form['password']
+        confirm_password = request.form['confirm_password']
+        form_data = {
+                     'name': request.form['name'],
+                     'username': request.form['username'],
+                     'password': request.form['password'],
+                     'confirm_password': request.form['confirm_password']
+                    }
 
         if is_username_taken(username):
+            session['form_data'] = form_data
             flash('Username already taken. Please choose another username.', 'error')
-            return render_template('create_account.html')
+            return redirect(url_for('create_account'))
+        
+        if not re.match(r"^[A-Z][a-zA-Z\s]{2,30}$", name):
+            session['form_data'] = form_data
+            flash('Invalid name format', 'error')
+            return redirect(url_for('create_account'))
+
+        if len(username) <= 6 or len(username) > 30:
+            flash('Username must be above 6 characters', 'error')
+            session['form_data'] = form_data
+            return redirect(url_for('create_account'))
+
+        if len(password) <= 6 or len(password) > 30 or not any(char.isdigit() for char in password):
+            flash('Password must be above 6 characters and contain at least one digit', 'error')
+            session['form_data'] = form_data
+            return redirect(url_for('create_account'))
 
         hash_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
@@ -230,6 +252,10 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        form_data = {
+            'username': username,
+            'password': password
+        }
 
         db_connection = get_db_connection()
         db_cursor = db_connection.cursor()
@@ -245,12 +271,14 @@ def login():
                     session['account_number'] = account[5]
                     session['username'] = account[2]  # Store username in session
                     return redirect(url_for('account'))
-                    # return redirect(url_for('account', account_number=account[5]))
                 else:
+                    session['form_data'] = form_data
                     error = 'Invalid credentials'
             except ValueError:
+                session['form_data'] = form_data
                 error = 'Invalid password hash'
         else:
+            session['form_data'] = form_data
             error = 'Invalid credentials'
 
         return render_template('login.html', error=error)
@@ -266,8 +294,6 @@ def login():
 
 @login_required
 @app.route('/account/')
-# @app.route('/account/<string:account_number>')
-# def account(account_number):
 def account():
     """Display account details.
 
@@ -306,7 +332,28 @@ def account():
 def logout():
     session.pop('account_number', None)
     session.pop('username', None)
+    session.clear()
+    flash('Logged out successfully', 'success')
     return redirect(url_for('login'))
+
+
+
+
+
+
+
+
+
+# Route to handle homepage
+@app.route('/index')
+def home():
+    session.pop('account_number', None)
+    session.pop('username', None)
+    session.clear()
+    return redirect(url_for('index'))
+
+
+
 
 
 
@@ -452,11 +499,9 @@ def fetch_account_name():
 
 
 
-@login_required
 @app.route('/send_money/', methods=['GET', 'POST'])
+@login_required
 def send_money():
-    """Handle sending money from one account to another."""
-
     account_number = session.get('account_number')
     sender_number = account_number
     db_connection = get_db_connection()
@@ -467,24 +512,56 @@ def send_money():
     if request.method == 'POST':
         recipient_number = request.form['recipient_number']
         amount = request.form['amount']
+        pin = request.form.get('pin')
+        create_pin = request.form.get('create_pin')
+        confirm_pin = request.form.get('confirm_pin')
 
+        # Check if the recipient is the same as the sender
         if recipient_number == sender_number:
             flash("Can't send money to yourself!", 'error')
             return render_template('send_money.html', account=sender_account)
 
+        # Check if the amount is valid
         if not is_valid_amount(amount):
             flash('Invalid amount. Please enter a positive number.', 'error')
             return render_template('send_money.html', account=sender_account)
 
         amount = float(amount)
 
-        db_cursor.execute("SELECT balance FROM accounts WHERE account_number = %s", (sender_number,))
-        sender_balance = db_cursor.fetchone()[0]
+        # Fetch the sender's balance and PIN
+        db_cursor.execute("SELECT balance, pin FROM accounts WHERE account_number = %s", (sender_number,))
+        sender_data = db_cursor.fetchone()
+        sender_balance = sender_data[0]
+        stored_pin = sender_data[1]
 
+        # Check if the sender has a PIN set
+        if stored_pin is None:
+            if create_pin and confirm_pin:
+                # Check if the created PINs match
+                if create_pin == confirm_pin:
+                    db_cursor.execute("UPDATE accounts SET pin = %s WHERE account_number = %s", (create_pin, sender_number))
+                    db_connection.commit()
+                    flash('PIN set successfully! Please re-enter the details to send money.', 'success')
+                    return redirect(url_for('send_money'))
+                else:
+                    flash('PINs do not match. Please try again.', 'error')
+                    return render_template('send_money.html', account=sender_account)
+            else:
+                flash('Please create and confirm a PIN to proceed.', 'error')
+                return render_template('send_money.html', account=sender_account)
+
+        # Validate the entered PIN
+        if stored_pin and pin != stored_pin:
+            flash('Incorrect PIN. Please try again.', 'error')
+            return render_template('send_money.html', account=sender_account)
+
+        # Check if the sender has sufficient balance
         if sender_balance >= amount:
+            # Deduct the amount from the sender's account
             new_sender_balance = sender_balance - amount
             db_cursor.execute("UPDATE accounts SET balance = %s WHERE account_number = %s", (new_sender_balance, sender_number))
 
+            # Add the amount to the recipient's account
             db_cursor.execute("SELECT balance FROM accounts WHERE account_number = %s", (recipient_number,))
             recipient_balance_row = db_cursor.fetchone()
 
@@ -507,6 +584,10 @@ def send_money():
     db_cursor.close()
     db_connection.close()
     return render_template('send_money.html', account=sender_account)
+
+
+
+
 
 
 

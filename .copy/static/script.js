@@ -86,3 +86,34 @@ document.addEventListener(
 document.addEventListener("gesturestart", function (event) {
   event.preventDefault();
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+  document
+    .getElementById("confirmNameButton")
+    .addEventListener("click", async function () {
+      const recipientNumber = document.getElementById("recipient_number").value;
+      if (recipientNumber) {
+        try {
+          const response = await fetch("/fetch_account_name", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ account_number: recipientNumber }),
+          });
+          const result = await response.json();
+          if (response.ok) {
+            document.getElementById("recipient_name").value =
+              result.account_name;
+          } else {
+            document.getElementById("recipient_name").value = "";
+          }
+        } catch (error) {
+          console.error("Error fetching account name:", error);
+        }
+      } else {
+        document.getElementById("recipient_name").value =
+          "Please enter recipient account number!";
+      }
+    });
+});

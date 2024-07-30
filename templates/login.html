@@ -34,7 +34,7 @@
         <!-- Navigation menu -->
         <nav class="main-nav">
           <ul>
-            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="/index">Home</a></li>
             <li><a href="{{ url_for('service') }}">Services</a></li>
             <li><a href="{{ url_for('about') }}">About Us</a></li>
           </ul>
@@ -57,7 +57,13 @@
         <form action="{{ url_for('login') }}" method="POST">
           <!-- Username field -->
           <label for="username">Username</label>
-          <input type="text" id="username" name="username" required />
+          <input
+            type="text"
+            id="username"
+            name="username"
+            value="{{ session.get('form_data', {}).get('username') or '' }}"
+            required
+          />
 
           <!-- Password field with visibility toggle -->
           <label for="password">Password</label>
@@ -67,6 +73,7 @@
               id="password"
               name="password"
               class="password-input"
+              value="{{ session.get('form_data', {}).get('password') or '' }}"
               required
             />
             <span class="toggle-password" onclick="togglePasswordVisibility()">

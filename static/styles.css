@@ -441,7 +441,26 @@ tr:hover {
 }
 
 #recipient_name {
-  width: 50%;
+  width: auto;
   font-size: 0.8rem;
   border-color: black;
+}
+
+.hidden {
+  display: none;
+}
+
+.slide-up {
+  animation: slideUp 0.5s ease-out forwards;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }

@@ -38,7 +38,7 @@
         <!-- Navigation menu -->
         <nav class="main-nav">
           <ul>
-            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="/index">Home</a></li>
             <li><a href="{{ url_for('service') }}">Services</a></li>
             <li><a href="{{ url_for('about') }}">About Us</a></li>
           </ul>
@@ -70,11 +70,23 @@
         >
           <!-- Full name input -->
           <label for="name">Full Name</label>
-          <input type="text" id="name" name="name" required />
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value="{{ session.get('form_data', {}).get('name') or '' }}"
+            required
+          />
 
           <!-- Username input -->
           <label for="username">Username</label>
-          <input type="text" id="username" name="username" required />
+          <input
+            type="text"
+            id="username"
+            name="username"
+            value="{{ session.get('form_data', {}).get('username') or '' }}"
+            required
+          />
 
           <!-- Password input with toggle visibility feature -->
           <label for="password">Password</label>
@@ -84,6 +96,7 @@
               id="password"
               name="password"
               class="password-input"
+              value="{{ session.get('form_data', {}).get('password') or '' }}"
               required
             />
             <span class="toggle-password" onclick="togglePasswordVisibility()">
@@ -99,6 +112,7 @@
               id="confirm_password"
               name="confirm_password"
               class="password-input"
+              value="{{ session.get('form_data', {}).get('confirm_password') or '' }}"
               required
             />
             <span

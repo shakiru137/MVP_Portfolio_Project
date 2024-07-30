@@ -4,14 +4,27 @@ such as account creation, login, deposit, withdrawal, money transfer, and transa
 It uses MySQL as the database and bcrypt for password hashing and random for generating new
 account number and transaction number.
 """
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, jsonify, redirect, url_for, flash, session
 from flask_bcrypt import Bcrypt
+from functools import wraps
 import mysql.connector
 import random
+import re
+
+
+
+
+
+
 
 # Initialize Flask application
 app = Flask(__name__, static_folder='static')
 app.secret_key = 'i_do_not_have_it_yet'
+
+
+
+
+
 
 # Database configuration
 DB_HOST = 'localhost'
@@ -19,8 +32,18 @@ DB_USER = 'root'
 DB_PASSWORD = 'oluwasegun137'
 DB_NAME = 'PURE_BANK'
 
+
+
+
+
+
 # Initialize the bcrypt object for password hashing
 bcrypt = Bcrypt(app)
+
+
+
+
+
 
 def get_db_connection():
     """Create and return a new database connection."""
@@ -31,6 +54,13 @@ def get_db_connection():
         database=DB_NAME
     )
     return db_connection
+
+
+
+
+
+
+
 
 def is_username_taken(username):
     """Check if the username is already taken.
@@ -64,6 +94,14 @@ def is_valid_amount(amount):
     except ValueError:
         return False
 
+
+
+
+
+
+
+
+
 def generate_account_number(db_cursor):
     """Generate a unique 10-digit account number starting with '00' or '01'.
 
@@ -87,6 +125,16 @@ def generate_account_number(db_cursor):
             # Account number is unique
             return account_number
 
+
+
+
+
+
+
+
+
+
+
 def generate_transaction_number(db_cursor):
     """Generate a unique 18-digit transaction number."""
     while True:
@@ -98,6 +146,31 @@ def generate_transaction_number(db_cursor):
         if db_cursor.fetchone()[0] == 0:
             # Transaction number is unique
             return transaction_number
+
+
+
+
+
+
+
+
+# Route to ensure the user is logged in
+def login_required(f):
+    from functools import wraps
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'account_number' not in session:
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    return decorated_function
+
+
+
+
+
+
+
+
 
 @app.route('/')
 def index():
@@ -115,10 +188,33 @@ def create_account():
         name = request.form['name']
         username = request.form['username']
         password = request.form['password']
+        confirm_password = request.form['confirm_password']
+        form_data = {
+                     'name': request.form['name'],
+                     'username': request.form['username'],
+                     'password': request.form['password'],
+                     'confirm_password': request.form['confirm_password']
+                    }
 
         if is_username_taken(username):
+            session['form_data'] = form_data
             flash('Username already taken. Please choose another username.', 'error')
-            return render_template('create_account.html')
+            return redirect(url_for('create_account'))
+        
+        if not re.match(r"^[A-Z][a-zA-Z\s]{2,30}$", name):
+            session['form_data'] = form_data
+            flash('Invalid name format', 'error')
+            return redirect(url_for('create_account'))
+
+        if len(username) <= 6 or len(username) > 30:
+            flash('Username must be above 6 characters', 'error')
+            session['form_data'] = form_data
+            return redirect(url_for('create_account'))
+
+        if len(password) <= 6 or len(password) > 30 or not any(char.isdigit() for char in password):
+            flash('Password must be above 6 characters and contain at least one digit', 'error')
+            session['form_data'] = form_data
+            return redirect(url_for('create_account'))
 
         hash_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
@@ -136,6 +232,16 @@ def create_account():
 
     return render_template('create_account.html')
 
+
+
+
+
+
+
+
+
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     """Handle user login.
@@ -146,6 +252,10 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        form_data = {
+            'username': username,
+            'password': password
+        }
 
         db_connection = get_db_connection()
         db_cursor = db_connection.cursor()
@@ -158,47 +268,120 @@ def login():
             stored_password = account[3]  # Assuming password is the 4th column
             try:
                 if bcrypt.check_password_hash(stored_password, password):
-                    return render_template('account.html', account=account)
+                    session['account_number'] = account[5]
+                    session['username'] = account[2]  # Store username in session
+                    return redirect(url_for('account'))
                 else:
+                    session['form_data'] = form_data
                     error = 'Invalid credentials'
             except ValueError:
+                session['form_data'] = form_data
                 error = 'Invalid password hash'
         else:
+            session['form_data'] = form_data
             error = 'Invalid credentials'
 
         return render_template('login.html', error=error)
 
     return render_template('login.html')
 
-def log_transaction(account_number, transaction_type, amount):
-    """Log a transaction in the database.
+
+
+
+
+
+
+
+@login_required
+@app.route('/account/')
+def account():
+    """Display account details.
 
     Args:
-        account_number (str): The account number involved in the transaction.
-        transaction_type (str): The type of transaction (e.g., 'withdrawal', 'deposit').
-        amount (float): The amount of the transaction.
+        account_number (str): The number of the account to display.
+
+    Returns:
+        Rendered template with account details or 404 page if account not found.
     """
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    
+    account_number = session.get('account_number')
+
     db_connection = get_db_connection()
     db_cursor = db_connection.cursor()
-    
-    # Generate a unique 18-digit transaction number
-    transaction_number = generate_transaction_number(db_cursor)
-    
-    # Insert the transaction record into the database
-    db_cursor.execute("INSERT INTO transactions (transaction_number, account_number, type, amount) VALUES (%s, %s, %s, %s)", 
-                      (transaction_number, account_number, transaction_type, amount))
-    
-    db_connection.commit()
+    db_cursor.execute("SELECT * FROM accounts WHERE account_number = %s", (account_number,))
+    account = db_cursor.fetchone()
     db_cursor.close()
     db_connection.close()
 
-@app.route('/withdraw_money/<string:account_number>', methods=['GET', 'POST'])
-def withdraw_money(account_number):
+    if account:
+        return render_template('account.html', account=account)
+    else:
+        return render_template('404.html'), 404
+
+
+
+
+
+
+
+
+# Route to handle logout
+@app.route('/logout')
+def logout():
+    session.pop('account_number', None)
+    session.pop('username', None)
+    session.clear()
+    flash('Logged out successfully', 'success')
+    return redirect(url_for('login'))
+
+
+
+
+
+
+
+
+
+# Route to handle homepage
+@app.route('/index')
+def home():
+    session.pop('account_number', None)
+    session.pop('username', None)
+    session.clear()
+    return redirect(url_for('index'))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@app.route('/withdraw_money/', methods=['GET', 'POST'])
+@login_required
+def withdraw_money():
     """Handle money withdrawal from an account.
 
     GET: Render the withdrawal form.
     POST: Process the withdrawal if the form data is valid.
+    
     """
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    account_number = session.get('account_number')
     db_connection = get_db_connection()
     db_cursor = db_connection.cursor()
     db_cursor.execute("SELECT * FROM accounts WHERE account_number = %s", (account_number,))
@@ -230,13 +413,25 @@ def withdraw_money(account_number):
     db_connection.close()
     return render_template('withdraw_money.html', account=account)
 
-@app.route('/deposit_money/<string:account_number>', methods=['GET', 'POST'])
-def deposit_money(account_number):
+
+
+
+
+
+
+
+
+@login_required
+@app.route('/deposit_money/', methods=['GET', 'POST'])
+def deposit_money():
     """Handle money deposit into an account.
 
     GET: Render the deposit form.
     POST: Process the deposit if the form data is valid.
     """
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    account_number = session.get('account_number')
     db_connection = get_db_connection()
     db_cursor = db_connection.cursor()
     db_cursor.execute("SELECT * FROM accounts WHERE account_number = %s", (account_number,))
@@ -265,13 +460,52 @@ def deposit_money(account_number):
     db_connection.close()
     return render_template('deposit_money.html', account=account)
 
-@app.route('/send_money/<string:sender_number>', methods=['GET', 'POST'])
-def send_money(sender_number):
-    """Handle sending money from one account to another.
 
-    GET: Render the send money form.
-    POST: Process the money transfer if the form data is valid.
-    """
+
+
+
+
+
+
+
+
+
+
+@app.route('/fetch_account_name', methods=['POST'])
+def fetch_account_name():
+    data = request.get_json()
+    account_number = data.get('account_number')
+    db_connection = get_db_connection()
+    db_cursor = db_connection.cursor()
+    db_cursor.execute("SELECT name FROM accounts WHERE account_number = %s", (account_number,))
+    account = db_cursor.fetchone()
+    db_cursor.close()
+    db_connection.close()
+
+    if account:
+        return jsonify({'account_name': account[0]}), 200
+    else:
+        return jsonify({'account_name': "Not Found!"}), 200
+
+
+
+
+
+
+
+
+
+
+
+
+
+@login_required
+@app.route('/send_money/', methods=['GET', 'POST'])
+def send_money():
+    """Handle sending money from one account to another."""
+
+    account_number = session.get('account_number')
+    sender_number = account_number
     db_connection = get_db_connection()
     db_cursor = db_connection.cursor()
     db_cursor.execute("SELECT * FROM accounts WHERE account_number = %s", (sender_number,))
@@ -322,30 +556,16 @@ def send_money(sender_number):
     return render_template('send_money.html', account=sender_account)
 
 
-@app.route('/account/<string:account_number>')
-def account(account_number):
-    """Display account details.
 
-    Args:
-        account_number (str): The number of the account to display.
 
-    Returns:
-        Rendered template with account details or 404 page if account not found.
-    """
-    db_connection = get_db_connection()
-    db_cursor = db_connection.cursor()
-    db_cursor.execute("SELECT * FROM accounts WHERE account_number = %s", (account_number,))
-    account = db_cursor.fetchone()
-    db_cursor.close()
-    db_connection.close()
 
-    if account:
-        return render_template('account.html', account=account)
-    else:
-        return render_template('404.html'), 404
 
-@app.route('/transaction_history/<string:account_number>')
-def transaction_history(account_number):
+
+
+
+@login_required
+@app.route('/transaction_history/')
+def transaction_history():
     """Display transaction history for an account.
 
     Args:
@@ -354,6 +574,10 @@ def transaction_history(account_number):
     Returns:
         Rendered template with transaction history.
     """
+
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    account_number = session.get('account_number')
     db_connection = get_db_connection()
     db_cursor = db_connection.cursor()
 
@@ -369,15 +593,73 @@ def transaction_history(account_number):
     db_connection.close()
     return render_template('transaction_history.html', transactions=transactions, account=account)
 
+
+
+
+
+
+
+
+
+
+def log_transaction(account_number, transaction_type, amount):
+    """Log a transaction in the database.
+
+    Args:
+        account_number (str): The account number involved in the transaction.
+        transaction_type (str): The type of transaction (e.g., 'withdrawal', 'deposit').
+        amount (float): The amount of the transaction.
+    """
+    db_connection = get_db_connection()
+    db_cursor = db_connection.cursor()
+    
+    # Generate a unique 18-digit transaction number
+    transaction_number = generate_transaction_number(db_cursor)
+    
+    # Insert the transaction record into the database
+    db_cursor.execute("INSERT INTO transactions (transaction_number, account_number, type, amount) VALUES (%s, %s, %s, %s)", 
+                      (transaction_number, account_number, transaction_type, amount))
+    
+    db_connection.commit()
+    db_cursor.close()
+    db_connection.close()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @app.route('/service/', methods=['GET', 'POST'])
 def service():
     """Render the service page."""
     return render_template('service.html')
 
+
+
+
+
+
+
 @app.route('/about/', methods=['GET', 'POST'])
 def about():
     """Render the about page."""
     return render_template('about.html')
+
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

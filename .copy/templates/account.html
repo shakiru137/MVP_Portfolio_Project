@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pure Bank</title>
-    <link rel="icon" href="../static/images/bank_logo.png" type="image/png">
+    <link rel="icon" href="../static/images/bank_logo.png" type="image/png" />
 
     <!-- Link to the external stylesheet for styling the page -->
     <link
@@ -29,9 +29,7 @@
         <!-- Navigation menu with links to different pages -->
         <nav class="main-nav">
           <ul>
-            <li><a href="{{ url_for('index') }}" class="logout">Logout</a></li>
-            <!-- <li><a href="{{ url_for('service') }}">Services</a></li>
-            <li><a href="{{ url_for('about') }}">About Us</a></li> -->
+            <li><a href="/logout">Logout</a></li>
           </ul>
         </nav>
       </div>
@@ -93,8 +91,6 @@
               >Transaction History</a
             >
           </li>
-          <!-- Link to log out
-          <li><a href="{{ url_for('index') }}" class="logout">Log Out</a></li> -->
         </ul>
       </div>
     </main>

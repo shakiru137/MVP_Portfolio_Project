@@ -439,3 +439,9 @@ tr:hover {
     text-align: left;
   }
 }
+
+#recipient_name {
+  width: 50%;
+  font-size: 0.8rem;
+  border-color: black;
+}
