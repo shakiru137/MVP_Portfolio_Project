@@ -126,6 +126,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!pin && (!createPin || !confirmPin)) {
       event.preventDefault();
       createPinSection.classList.remove("hidden");
+      pinSection.classList.add("hidden");
       createPinSection.classList.add("slide-up");
     }
   });

@@ -225,13 +225,15 @@ label {
 
 /* Form element styling */
 input[type="text"],
-input[type="password"] {
+input[type="password"],
+input[type="number"] {
   color: #6c757d;
-  width: 80%; /* Adjusted to 80% */
+  width: auto; /* Adjusted to 80% */
   padding: 10px;
-  border: 1px solid #29a6e6;
+  border: 0.5px solid #29a6e6;
   border-radius: 10px;
-  font-size: 1.2rem;
+  font-size: 1rem;
+  text-align: center;
 }
 
 button {
@@ -441,7 +443,32 @@ tr:hover {
 }
 
 #recipient_name {
-  width: 50%;
-  font-size: 0.8rem;
+  width: auto !important;
+  font-size: 1rem;
   border-color: black;
+}
+
+.hidden {
+  display: none;
+}
+
+.slide-up {
+  animation: slideUp 0.5s ease-out forwards;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.morebutton {
+  border-radius: 50%;
+  height: 100%;
+  width: auto;
 }

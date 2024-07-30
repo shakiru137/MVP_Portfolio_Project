@@ -327,6 +327,11 @@ def account():
 
 
 
+
+
+
+
+
 # Route to handle logout
 @app.route('/logout')
 def logout():
@@ -405,7 +410,7 @@ def withdraw_money():
             log_transaction(account_number, 'withdrawal', amount)
 
             flash('Withdrawal successful!', 'success')
-            return render_template('withdraw_money.html', account=account)
+            return redirect(url_for('withdraw_money'))
         else:
             flash('Insufficient funds!', 'error')
 
@@ -454,7 +459,7 @@ def deposit_money():
         log_transaction(account_number, 'deposit', amount)
 
         flash('Deposit successful!', 'success')
-        return render_template('deposit_money.html', account=account)
+        return redirect(url_for('deposit_money'))
 
     db_cursor.close()
     db_connection.close()
@@ -499,11 +504,9 @@ def fetch_account_name():
 
 
 
-@login_required
 @app.route('/send_money/', methods=['GET', 'POST'])
+@login_required
 def send_money():
-    """Handle sending money from one account to another."""
-
     account_number = session.get('account_number')
     sender_number = account_number
     db_connection = get_db_connection()
@@ -514,24 +517,56 @@ def send_money():
     if request.method == 'POST':
         recipient_number = request.form['recipient_number']
         amount = request.form['amount']
+        pin = request.form.get('pin')
+        create_pin = request.form.get('create_pin')
+        confirm_pin = request.form.get('confirm_pin')
 
+        # Check if the recipient is the same as the sender
         if recipient_number == sender_number:
             flash("Can't send money to yourself!", 'error')
             return render_template('send_money.html', account=sender_account)
 
+        # Check if the amount is valid
         if not is_valid_amount(amount):
             flash('Invalid amount. Please enter a positive number.', 'error')
             return render_template('send_money.html', account=sender_account)
 
         amount = float(amount)
 
-        db_cursor.execute("SELECT balance FROM accounts WHERE account_number = %s", (sender_number,))
-        sender_balance = db_cursor.fetchone()[0]
+        # Fetch the sender's balance and PIN
+        db_cursor.execute("SELECT balance, pin FROM accounts WHERE account_number = %s", (sender_number,))
+        sender_data = db_cursor.fetchone()
+        sender_balance = sender_data[0]
+        stored_pin = sender_data[1]
 
+        # Check if the sender has a PIN set
+        if stored_pin is None:
+            if create_pin and confirm_pin:
+                # Check if the created PINs match
+                if create_pin == confirm_pin:
+                    db_cursor.execute("UPDATE accounts SET pin = %s WHERE account_number = %s", (create_pin, sender_number))
+                    db_connection.commit()
+                    flash('PIN set successfully! Please re-enter the details to send money.', 'success')
+                    return redirect(url_for('send_money'))
+                else:
+                    flash('PINs do not match. Please try again.', 'error')
+                    return render_template('send_money.html', account=sender_account)
+            else:
+                flash('Please create and confirm a PIN to proceed.', 'error')
+                return render_template('send_money.html', account=sender_account)
+
+        # Validate the entered PIN
+        if stored_pin and pin != stored_pin:
+            flash('Incorrect PIN. Please try again.', 'error')
+            return render_template('send_money.html', account=sender_account)
+
+        # Check if the sender has sufficient balance
         if sender_balance >= amount:
+            # Deduct the amount from the sender's account
             new_sender_balance = sender_balance - amount
             db_cursor.execute("UPDATE accounts SET balance = %s WHERE account_number = %s", (new_sender_balance, sender_number))
 
+            # Add the amount to the recipient's account
             db_cursor.execute("SELECT balance FROM accounts WHERE account_number = %s", (recipient_number,))
             recipient_balance_row = db_cursor.fetchone()
 
@@ -545,7 +580,7 @@ def send_money():
                 log_transaction(recipient_number, 'receive', amount)
 
                 flash('Money sent successfully!', 'success')
-                return render_template('send_money.html', account=sender_account)
+                return redirect(url_for('send_money'))
             else:
                 flash('Recipient account not found!', 'error')
         else:
@@ -553,7 +588,12 @@ def send_money():
 
     db_cursor.close()
     db_connection.close()
+    
     return render_template('send_money.html', account=sender_account)
+
+
+
+
 
 
 

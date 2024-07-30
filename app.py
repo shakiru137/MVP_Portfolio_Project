@@ -327,6 +327,11 @@ def account():
 
 
 
+
+
+
+
+
 # Route to handle logout
 @app.route('/logout')
 def logout():
@@ -405,7 +410,7 @@ def withdraw_money():
             log_transaction(account_number, 'withdrawal', amount)
 
             flash('Withdrawal successful!', 'success')
-            return render_template('withdraw_money.html', account=account)
+            return redirect(url_for('withdraw_money'))
         else:
             flash('Insufficient funds!', 'error')
 
@@ -454,7 +459,7 @@ def deposit_money():
         log_transaction(account_number, 'deposit', amount)
 
         flash('Deposit successful!', 'success')
-        return render_template('deposit_money.html', account=account)
+        return redirect(url_for('deposit_money'))
 
     db_cursor.close()
     db_connection.close()
@@ -575,7 +580,7 @@ def send_money():
                 log_transaction(recipient_number, 'receive', amount)
 
                 flash('Money sent successfully!', 'success')
-                return render_template('send_money.html', account=sender_account)
+                return redirect(url_for('send_money'))
             else:
                 flash('Recipient account not found!', 'error')
         else:
@@ -583,6 +588,7 @@ def send_money():
 
     db_cursor.close()
     db_connection.close()
+    
     return render_template('send_money.html', account=sender_account)
 
 

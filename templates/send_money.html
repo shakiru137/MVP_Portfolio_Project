@@ -56,8 +56,10 @@
             id="recipient_number"
             name="recipient_number"
             required
-          /><br /><br />
-          <button type="button" id="confirmNameButton">Confirm Name</button
+          />
+          <br /><br />
+          <button type="button" id="confirmNameButton" class="morebutton">
+            Check</button
           ><br /><br />
           <label for="recipient_name">Recipient's Name:</label>
           <input
@@ -70,30 +72,30 @@
           <input type="number" id="amount" name="amount" required /><br /><br />
           <div id="pinSection" class="hidden">
             <label for="pin">Enter PIN:</label>
-            <input
-              type="password"
-              id="pin"
-              name="pin"
-              maxlength="4"
-            /><br /><br />
+            <input type="number" id="pin" name="pin" maxlength="4" />
+            <br /><br />
+            <button id="sendButton" class="morebutton">New Pin</button
+            ><br /><br />
+            <button type="submit">Send</button>
+            <br /><br />
           </div>
           <div id="createPinSection" class="hidden">
             <label for="create_pin">Create PIN:</label>
             <input
-              type="password"
+              type="number"
               id="create_pin"
               name="create_pin"
               maxlength="4"
             /><br /><br />
             <label for="confirm_pin">Confirm PIN:</label>
             <input
-              type="password"
+              type="number"
               id="confirm_pin"
               name="confirm_pin"
               maxlength="4"
             /><br /><br />
-          </div>
-          <button type="submit" id="sendButton">Send</button>
+            <button type="submit" class="morebutton">Create</button>
+            <br /><br />
         </form>
       </div>
     </main>
