@@ -368,7 +368,7 @@ tr:hover {
   }
 
   tr {
-    border: 1px solid #ddd;
+    border: 1px solid #29a6e6;
     margin-bottom: 10px;
   }
 
@@ -445,7 +445,6 @@ tr:hover {
 #recipient_name {
   width: auto !important;
   font-size: 1rem;
-  border-color: black;
 }
 
 .hidden {

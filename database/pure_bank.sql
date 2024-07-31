@@ -22,7 +22,10 @@ CREATE TABLE IF NOT EXISTS accounts (
   balance FLOAT,
 
   -- Define an 'account_number' column with a fixed length of 10 characters
-  account_number CHAR(10) UNIQUE
+  account_number CHAR(10) UNIQUE,
+
+  -- Define a 'pin' column with a a fixed length of 4 characters
+  pin CHAR(4)
 );
 
 -- Create the 'transactions' table with the appropriate columns
@@ -41,6 +44,9 @@ CREATE TABLE IF NOT EXISTS transactions (
   
   -- Define a 'timestamp' column with a datetime type, defaulting to the current timestamp
   timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+  
+  -- Define a 'description' column for transaction description
+  description VARCHAR(255),
   
   -- Define a foreign key constraint referencing the 'accounts' table
   FOREIGN KEY (account_number) REFERENCES accounts(account_number)

@@ -394,6 +394,10 @@ def withdraw_money():
 
     if request.method == 'POST':
         amount = request.form['amount']
+        description = "Withdrawal from account"
+        sender_name = account[1]
+        recipient_name = account[1]
+        recipient_number = account[5]
 
         if not is_valid_amount(amount):
             flash('Invalid amount. Please enter a positive number.', 'error')
@@ -407,7 +411,7 @@ def withdraw_money():
             new_balance = current_balance - amount
             db_cursor.execute("UPDATE accounts SET balance = %s WHERE account_number = %s", (new_balance, account_number))
             db_connection.commit()
-            log_transaction(account_number, 'withdrawal', amount)
+            log_transaction(account_number, 'withdrawal', amount, description, sender_name, recipient_name, recipient_number)
 
             flash('Withdrawal successful!', 'success')
             return redirect(url_for('withdraw_money'))
@@ -444,6 +448,10 @@ def deposit_money():
 
     if request.method == 'POST':
         amount = request.form['amount']
+        description = "Deposit to account"
+        sender_name = account[1]
+        recipient_name = account[1]
+        recipient_number = account[5]
 
         if not is_valid_amount(amount):
             flash('Invalid amount. Please enter a positive number.', 'error')
@@ -456,7 +464,7 @@ def deposit_money():
         new_balance = current_balance + amount
         db_cursor.execute("UPDATE accounts SET balance = %s WHERE account_number = %s", (new_balance, account_number))
         db_connection.commit()
-        log_transaction(account_number, 'deposit', amount)
+        log_transaction(account_number, 'deposit', amount, description, sender_name, recipient_name, recipient_number)
 
         flash('Deposit successful!', 'success')
         return redirect(url_for('deposit_money'))
@@ -495,7 +503,35 @@ def fetch_account_name():
 
 
 
+def account_name(account_number):
+    db_connection = get_db_connection()
+    db_cursor = db_connection.cursor()
 
+    # Ensure account_number is not a tuple itself
+    if isinstance(account_number, tuple):
+        account_number = str(account_number)
+
+    # Convert account_number to string if it's not already
+    account_number = str(account_number)
+
+    try:
+        # Ensure account_number is passed as a tuple
+        db_cursor.execute("SELECT name FROM accounts WHERE account_number = %s", (account_number,))
+        account = db_cursor.fetchone()
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+        account = None
+    finally:
+        db_cursor.close()
+        db_connection.close()
+
+    if account:
+        return account[0]
+    else:
+        return "Not Found!"
+
+
+    
 
 
 
@@ -517,10 +553,12 @@ def send_money():
     if request.method == 'POST':
         recipient_number = request.form['recipient_number']
         amount = request.form['amount']
+        description = request.form['description']
         pin = request.form.get('pin')
         create_pin = request.form.get('create_pin')
         confirm_pin = request.form.get('confirm_pin')
 
+        
         # Check if the recipient is the same as the sender
         if recipient_number == sender_number:
             flash("Can't send money to yourself!", 'error')
@@ -575,9 +613,13 @@ def send_money():
                 new_recipient_balance = recipient_balance + amount
                 db_cursor.execute("UPDATE accounts SET balance = %s WHERE account_number = %s", (new_recipient_balance, recipient_number))
 
+                
                 db_connection.commit()
-                log_transaction(sender_number, 'transfer', amount)
-                log_transaction(recipient_number, 'receive', amount)
+
+                sender_name = account_name(account_number)
+                recipient_name = account_name(recipient_number)
+                log_transaction(sender_number, 'transfer', amount, description, sender_name, recipient_name, recipient_number)
+                log_transaction(recipient_number, 'receive', amount, description, sender_name, recipient_name, recipient_number)
 
                 flash('Money sent successfully!', 'success')
                 return redirect(url_for('send_money'))
@@ -642,7 +684,7 @@ def transaction_history():
 
 
 
-def log_transaction(account_number, transaction_type, amount):
+def log_transaction(account_number, transaction_type, amount, description, sender_name, recipient_name, recipient_number):
     """Log a transaction in the database.
 
     Args:
@@ -657,8 +699,8 @@ def log_transaction(account_number, transaction_type, amount):
     transaction_number = generate_transaction_number(db_cursor)
     
     # Insert the transaction record into the database
-    db_cursor.execute("INSERT INTO transactions (transaction_number, account_number, type, amount) VALUES (%s, %s, %s, %s)", 
-                      (transaction_number, account_number, transaction_type, amount))
+    db_cursor.execute("INSERT INTO transactions (transaction_number, account_number, type, amount, description, sender_name, recipient_name, recipient_number) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", 
+                      (transaction_number, account_number, transaction_type, amount, description, sender_name, recipient_name, recipient_number))
     
     db_connection.commit()
     db_cursor.close()

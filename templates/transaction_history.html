@@ -49,20 +49,28 @@
           <thead>
             <tr>
               <th>Transaction ID</th>
-              <th>Account ID</th>
+              <!-- <th>Account ID</th> -->
               <th>Type</th>
               <th>Amount</th>
               <th>Timestamp</th>
+              <th>Description</th>
+              <th>Sender Name</th>
+              <th>Recipient Name</th>
+              <th>Account Number</th>
             </tr>
           </thead>
           <tbody>
             {% for transaction in transactions %}
             <tr>
               <td data-label="Transaction ID">{{ transaction[0] }}</td>
-              <td data-label="Account ID">{{ transaction[1] }}</td>
+              <!-- <td data-label="Account ID">{{ transaction[1] }}</td> -->
               <td data-label="Type">{{ transaction[2] }}</td>
               <td data-label="Amount">{{ transaction[3] }}</td>
               <td data-label="Timestamp">{{ transaction[4] }}</td>
+              <td data-label="Description">{{ transaction[5] }}</td>
+              <td data-label="Sender Name">{{ transaction[6] }}</td>
+              <td data-label="Recipient Name">{{ transaction[7] }}</td>
+              <td data-label="Account Number">{{ transaction[8] }}</td>
             </tr>
             {% endfor %}
           </tbody>
